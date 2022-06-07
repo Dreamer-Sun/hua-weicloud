@@ -41,7 +41,6 @@ def Get_Token():
 def show_token(request):
     response = {}
     tokeninfo = Get_Token()
-    print('dsfadsfasdfafds')
     try:
         response['token'] = tokeninfo
         response['code'] = 20000
