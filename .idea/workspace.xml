@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="81a2f5e9-9aec-41de-a8e0-d1955786e7f0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/vue-admin-template/src/api/tok.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vue-admin-template/src/views/test/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vue-admin-template/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/vue-admin-template/.env.development" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vue-admin-template/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue-admin-template/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vue-admin-template/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue-admin-template/vue.config.js" afterDir="false" />
+    <list default="true" id="81a2f5e9-9aec-41de-a8e0-d1955786e7f0" name="Changes" comment="1">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,12 +22,6 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="PUSH_TAGS">
-      <GitPushTagMode>
-        <option name="argument" value="--tags" />
-        <option name="title" value="All" />
-      </GitPushTagMode>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/vue-admin-template" />
   </component>
   <component name="ProjectId" id="2A9JaF0ocu4btqIEh87UE5Re5TN" />
@@ -46,6 +36,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="ChangesTree.GroupingKeys" value="repository" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -122,8 +113,17 @@
       <workItem from="1654444095184" duration="14000" />
       <workItem from="1654579413331" duration="1950000" />
       <workItem from="1654584307181" duration="7193000" />
-      <workItem from="1654595258669" duration="872000" />
+      <workItem from="1654595258669" duration="1179000" />
+      <workItem from="1654596508179" duration="1181000" />
     </task>
+    <task id="LOCAL-00001" summary="1">
+      <created>1654596390090</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1654596390090</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -143,6 +143,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="1" />
+    <option name="LAST_COMMIT_MESSAGE" value="1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/hua_weicloud$test_get_api.coverage" NAME="test_get_api Coverage Results" MODIFIED="1654587768047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hwcloud/test_tnmp/api" />
