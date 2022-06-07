@@ -3,12 +3,13 @@
     <el-button
       type="primary"
       >站点总数</el-button>
+    {{siteNum}}
     <p></p>
     <el-input v-model="filterText" placeholder="Filter keyword" style="margin-bottom:30px;" />
 
     <el-tree
       ref="tree2"
-      :data="data2"
+      :data="tableData"
       :props="defaultProps"
       :filter-node-method="filterNode"
       class="filter-tree"
@@ -25,7 +26,9 @@ export default {
 
   data() {
     return {
+      siteNum :'',
       filterText: '',
+      tableData:[],
       data2: [{
         id: 1,
         label: '设备id 1 ',
@@ -84,7 +87,12 @@ export default {
       return data.label.indexOf(value) !== -1
     },
     GetData(){
-
+        getSiteData().then((res) => {
+          console.log(res.data)
+          this.tableData = res.data;
+          this.siteNum = res.totalRecords;
+          console.log(this.tableData)
+        });
     }
   }
 }
