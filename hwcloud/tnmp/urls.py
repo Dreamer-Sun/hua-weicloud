@@ -10,4 +10,5 @@ urlpatterns = [
 
     path('show_token/', get_api.show_token),
     # path('user/getinfo', login.getinfo),
+
 ]

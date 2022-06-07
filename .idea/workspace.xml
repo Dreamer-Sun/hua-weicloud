@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-
+    <list default="true" id="d0e7ef0a-5f88-42e5-9a1e-4d45d9aeb1f2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hwcloud/tnmp/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/hwcloud/tnmp/urls.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,7 +23,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="2A9JaF0ocu4btqIEh87UE5Re5TN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -37,7 +40,8 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../software_engining/software-engineering" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Python.test_get_api">
@@ -109,7 +113,6 @@
       <workItem from="1654444095184" duration="14000" />
       <workItem from="1654579413331" duration="1950000" />
       <workItem from="1654584307181" duration="7193000" />
-
     </task>
     <servers />
   </component>
