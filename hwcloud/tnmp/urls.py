@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from tnmp.api import get_api
+from tnmp.manage import querysites
 app_name = 'tnmp'
 
 urlpatterns = [
@@ -9,6 +10,9 @@ urlpatterns = [
     # path('handle/', views.handle, name='handle'),
 
     path('show_token/', get_api.show_token),
+
+    path('getSiteData/', querysites.getSiteData),
+
     # path('user/getinfo', login.getinfo),
 
 ]
