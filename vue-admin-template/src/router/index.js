@@ -171,10 +171,18 @@ export const constantRoutes = [
       }
     ]
   },
-
-
-
-
+  {
+    path:'/mapshow',
+    component: Layout,
+    children: [
+      {
+        path: 'MapShow',
+        name: 'mapshow',
+        component: () => import('@/views/mapshow/index'),
+        meta: {title: 'mapshow', icon: 'form'}
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

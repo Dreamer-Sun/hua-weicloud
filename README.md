@@ -4,8 +4,8 @@
 基于华为乾坤api的管理项目
 
 引入echarts(vue)
-
-
+npm install --save-dev less-loader@4.1.0
+npm install less@3.9.0 less-loader@4.1.0 --save-dev
 
 #### 软件架构
 软件架构说明
