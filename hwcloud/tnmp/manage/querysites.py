@@ -16,6 +16,18 @@ headers = {
     "X-ACCESS-TOKEN": tokenid
 }
 
+def GetSiteId():
+    res = requests.get(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v3/sites',
+                       headers=headers)
+    res_data = res.json()
+    data = res_data.get('data')
+    SiteIdList = []
+    for i in range(len(data)):
+        SiteIdList.append(data[i]["id"])
+
+    # print(SiteIdList)
+    return SiteIdList
+
 
 def QuerySites():
     res = requests.get(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v3/sites',
@@ -136,5 +148,6 @@ def getSiteData(request):
 
 
 if __name__ == '__main__':
-    QuerySites()
+    # QuerySites()
+    GetSiteId()
     # testapi()

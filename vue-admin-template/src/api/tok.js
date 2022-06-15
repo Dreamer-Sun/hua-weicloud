@@ -6,5 +6,6 @@ export function show_token() {
 
     url: '/api/show_token',
     method: 'GET'
+
   })
 }
