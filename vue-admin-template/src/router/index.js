@@ -65,13 +65,13 @@ export const constantRoutes = [
       {
         path: 'alarm',
         name: 'alarm',
-        component: () => import('@/views/table/index'),
+        component: () => import('@/views/alarm/index'),
         meta: { title: '告警设备查询', icon: 'table' }
       },
       {
         path: 'site_query',
         name: 'site_query',
-        component: () => import('@/views/tree/index'),
+        component: () => import('@/views/site_query/index'),
         meta: { title: '站点查询', icon: 'tree' }
       },
       {
