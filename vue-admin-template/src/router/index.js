@@ -56,23 +56,29 @@ export const constantRoutes = [
   },
 
   {
-    path: '/example',
+    path: '/Sitedata_process',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    redirect: '/Sitedata_process/alarm',
+    name: 'Sitedata_process',
+    meta: { title: '站点数据处理', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
+        path: 'alarm',
+        name: 'alarm',
         component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        meta: { title: '告警设备查询', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
+        path: 'site_query',
+        name: 'site_query',
         component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        meta: { title: '站点查询', icon: 'tree' }
+      },
+      {
+        path: 'create_site',
+        name: 'create_site',
+        component: () => import('@/views/create_site/index'),
+        meta: { title: '创建站点', icon: 'tree' }
       }
     ]
   },

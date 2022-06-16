@@ -34,7 +34,7 @@ def QuerySites():
                        headers=headers)
     res_data = res.json()
     data = res_data.get('data')
-    print(data[0]["id"])
+    # print(data[0]["id"])
     print(len(data))
     after_data = []
     child = {}

@@ -21,11 +21,11 @@ body = {
 
 def getequipmentalarm(index):
     SiteList = GetSiteId()
-    print(SiteList[index])
+    print("equipment_site", SiteList[index])
     body["siteId"] = SiteList[index]
     res = requests.post(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v1/oamservice/device/alarm', headers=headers, json=body)
     data = res.json()["data"]
-    print(data)
+    print("equipment_data", data)
 
 
     # 设备告警信息  格式为站点id，站点所有设备
@@ -74,9 +74,9 @@ def getEquipmentAlarm(request):
     print(int(id))
     response = {}
     tmp_data = getequipmentalarm(int(id))
-    # test1 = {'deviceTotalCount': 1, 'normalDeviceCount': 1, 'warningDeviceCount': 1, 'faultyDeviceCount': 0, 'offlineDeviceCount': 0, 'unregistedDeviceCount': 0, 'alarmCriticalCount': 0, 'alarmMajorCount': 0, 'alarmMinorCount': 0, 'alarmWarningCount': 0}
+    test1 = {'deviceTotalCount': 1, 'normalDeviceCount': 1, 'warningDeviceCount': 1, 'faultyDeviceCount': 0, 'offlineDeviceCount': 0, 'unregistedDeviceCount': 0, 'alarmCriticalCount': 0, 'alarmMajorCount': 0, 'alarmMinorCount': 0, 'alarmWarningCount': 0}
     # test2 = {'deviceTotalCount': 2, 'normalDeviceCount': 2, 'warningDeviceCount': 2, 'faultyDeviceCount': 0, 'offlineDeviceCount': 0, 'unregistedDeviceCount': 0, 'alarmCriticalCount': 0, 'alarmMajorCount': 0, 'alarmMinorCount': 0, 'alarmWarningCount': 0}
-    # if int(id) == 1:
+    # if int(id) == 2:
     #     tmp_data = test1
     # elif int(id) == 2:
     #     tmp_data = test2
