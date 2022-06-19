@@ -8,7 +8,16 @@
       <el-input placeholder="示例值：site"v-model="form.description"></el-input>
     </el-form-item>
     <el-form-item label="	站点类型">
-      <el-input placeholder='示例值：["AP"] 混合站点类型集合：默认为AP。可选“AR”、“AP”、“FW”、“AC（Fit AP）”、“LSW”、“ONT”或者“OLT”中一个或多个类型。'v-model="form.type"></el-input>
+      <!--<el-input placeholder='示例值：["AP"] 混合站点类型集合：默认为AP。可选“AR”、“AP”、“FW”、“AC（Fit AP）”、“LSW”、“ONT”或者“OLT”中一个或多个类型。'v-model="form.type"></el-input>
+      -->
+      <el-select v-model="value1" multiple placeholder="请选择" size="medium">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+      </el-select>
     </el-form-item>
     <el-form-item label="配置模式">
       <el-input placeholder="示例值：1 站点配置模式，取值范围为：1---默认，2---配置文件。"v-model="form.pattern"></el-input>
@@ -26,7 +35,14 @@
       <el-input placeholder='示例值：["abcd"]'v-model="form.tag"></el-input>
     </el-form-item>
     <el-form-item label="是否隔离">
-      <el-input placeholder='示例值：["abcd"]'v-model="form.isolated"></el-input>
+      <el-select v-model="value3" placeholder="请选择">
+          <el-option
+            v-for="item in options2"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+      </el-select>
     </el-form-item>
     <el-form-item label="邮箱">
       <el-input placeholder="示例值：tenant@huawei.com"v-model="form.email"></el-input>
@@ -47,7 +63,14 @@
       <el-input placeholder="示例值：DEFAULT"v-model="form.cfgOriginType"></el-input>
     </el-form-item>
     <el-form-item label="克隆设备">
-      <el-input placeholder="示例值：false"v-model="form.cloneDevices"></el-input>
+      <el-select v-model="value4" placeholder="请选择">
+          <el-option
+            v-for="item in options2"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+      </el-select>
     </el-form-item>
 
 
@@ -78,12 +101,12 @@ import  axios from 'axios'			//引入axios
         form: {
           name: '',
           description: '',
-          type: '',
+          type: '["AP"]',
           pattern: 1,
           latitude: '',
           longtitude: '',
           contact: '',
-          tag: '',
+          tag: '["abcd"]',
           isolated: "false",
           email:'',
           phone:'',
@@ -97,7 +120,41 @@ import  axios from 'axios'			//引入axios
         value: [],
         siteList:[],
         SelectSite:[],
-        name:[]
+        name:[],
+        options: [{
+          value: 'AP',
+          label: 'AP'
+        }, {
+          value: 'AR',
+          label: 'AR'
+        }, {
+          value: 'FW',
+          label: 'FW'
+        }, {
+          value: 'AC',
+          label: 'AC'
+        }, {
+          value: 'LSW',
+          label: 'LSW'
+        }, {
+          value: 'ONT',
+          label: 'ONT'
+        }, {
+          value: 'OLT',
+          label: 'OLT'
+        }
+        ],
+        value1:[],
+        options2: [{
+          value: 'true',
+          label: 'true'
+        }, {
+          value: 'false',
+          label: 'false'
+        }],
+        //value3 是指isolated  value4是指cloneDevices
+        value3:'',
+        value4:''
       }
     },
     methods: {
@@ -111,13 +168,20 @@ import  axios from 'axios'			//引入axios
         let p ={
           "sites":this.SelectSite
         }
+        var formData = new FormData();
+        formData.append('sites', JSON.stringify(this.SelectSite));
         console.log('p!', p);
-        let q = JSON.stringify(p);
-        CreateSite(p).then((res) => {
-          console.log(res.data)
-          this.tableData = res.data;
-          this.siteNum = res.totalRecords;
-          console.log(this.tableData)
+
+        CreateSite(formData).then((res) => {
+          console.log("res.success", res.success);
+          console.log("res.errcode", res.errcode);
+          console.log("res.errmsg", res.errmsg);
+          console.log("res.fail", res.fail);
+
+          this.$message({
+              message: '恭喜你，站点创建成功',
+              type: 'success'
+        });
         });
         // $.ajax({
         //     type: "post",
@@ -135,10 +199,15 @@ import  axios from 'axios'			//引入axios
         // });
       },
       saveSite(){
-
+        console.log("this.value1", this.value1)
+        this.form["type"] = JSON.stringify(this.value1)
+        this.form["isolated"] = this.value3
+        this.form["cloneDevices"] = this.value4
         this.name.push(this.form["name"]);
         this.siteList.push(this.form);
         console.log("this.name", this.name);
+        console.log("this.form[\"type\"]", this.form["type"]);
+        console.log(typeof this.form["type"])
         console.log("value", this.value);
         const data = [];
         for (let i = 0; i < this.siteList.length; i++) {

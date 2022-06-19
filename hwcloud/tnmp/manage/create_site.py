@@ -1,5 +1,5 @@
 import json
-
+import ast
 from django.views.decorators.http import require_http_methods
 from django.http.request import QueryDict
 from tnmp.api.get_api import Get_Token
@@ -93,7 +93,6 @@ def CreateSite(req_data):
         data = req_data["sites"]
         print("CreateSitedata", data)
         print(len(data))
-        print(data[1])
         for i in range(len(data)):
                 sites = data[i]
                 # sites["name"] = data[i]["name"]
@@ -128,6 +127,24 @@ def CreateSite(req_data):
         All_Site["sites"] = []
         return success, fail, errcode, errmsg
 
+def DataFix(list):
+        print("-----here is DataFix-------")
+        for i in range(len(list)):
+                print("type(list[i][type])", type(list[i]["type"]))
+                print(list[i]["type"])
+                list[i]["type"] = eval(list[i]["type"])
+                if list[i]["isolated"] == 'false':
+                        list[i]["isolated"] = False
+                else:
+                        list[i]["isolated"] = True
+                if list[i]["cloneDevices"] == 'false':
+                        list[i]["cloneDevices"] = False
+                else:
+                        list[i]["cloneDevices"] = True
+                list[i]["tag"] = eval(list[i]["tag"])
+                print(type(list[i]["type"]))
+        print("after_list", list)
+        return list
 
 
 
@@ -135,27 +152,22 @@ def CreateSite(req_data):
 def createsite(request):
         print("here is createsite post", request)
         response = {}
-        tmp_data = "QuerySites()"
         # 获取 json 类型数据:
-        a = request.POST
-        print("a", a)
-        json_bytes = request.body
-        # json_bytes = request.query_params.get("nickname")
+        a = request.POST.get("sites", '1')
+        sites = json.loads(a)
+        print("type(sites)", type(sites))
+        print(sites)
+        After_fix = DataFix(sites)
+        # json_bytes = request.body
         print("-------")
 
-        # 将 bytes 类型转为 str
-        # json_str = json_bytes.decode()
-        print(json_bytes)
-        # python3.6 及以上版本中, json.loads() 方法可以接收 str 和 bytes 类型
-        # 但是 python3.5 以及以下版本中, json.loads() 方法只能接收 str,
-        # 3.5 需要有上面的编码步骤.
         #req_data = json.loads(json_str)
         # print("req_data", req_data)
-        success, fail, errcode, errmsg = CreateSite("req_data")
+        data = {"sites": []}
+        data["sites"] = After_fix
+        success, fail, errcode, errmsg = CreateSite(data)
         print(success)
         try:
-                response['totalRecords'] = len(tmp_data)
-                response["data"] = tmp_data
                 response["success"] = success
                 response["fail"] = fail
                 response["errcode"] = errcode

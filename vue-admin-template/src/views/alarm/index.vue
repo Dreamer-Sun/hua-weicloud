@@ -102,6 +102,7 @@ export default {
           console.log("res.data", res.data);
           this.equipment = res.data;
           console.log("this.equipment", res.data);
+
       })
 
       },

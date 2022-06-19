@@ -7,8 +7,8 @@ export function CreateSite(params) {
   return request({
     url: '/api/create_site/',
     method: 'post',
-    data: JSON.stringify(params),
-      headers: {
+    data: params,
+    headers: {
         'Content-Type': 'application/json'
       },
   })
