@@ -68,7 +68,7 @@ def QuerySites():
         for j in range(len(data)):
             SiteDataList.append(data[j])
 
-    print("len(SiteDataList)", len(SiteDataList))
+    # print("len(SiteDataList)", len(SiteDataList))
 
     after_data = []
     child = {}
@@ -149,7 +149,7 @@ def QuerySites():
         children["label"] = "address：" + str(SiteDataList[i]["address"])
         children2[i].append(children)
         children = {}
-    print(children2[0])
+    # print(children2[0])
 
     for i in range(len(SiteDataList)):
         child["id"] = num

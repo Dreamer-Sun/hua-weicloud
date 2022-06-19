@@ -21,7 +21,7 @@ body = {
 
 def getequipmentalarm(index):
     SiteList = GetSiteId()
-    print("equipment_site", SiteList[index])
+    # print("equipment_site", SiteList[index])
     body["siteId"] = SiteList[index]
     res = requests.post(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v1/oamservice/device/alarm', headers=headers, json=body)
     data = res.json()["data"]
@@ -70,8 +70,9 @@ def getEquipmentAlarm(request):
     # req_data = json.loads(json_str)
     # id = req_data["id"]
     # print(type(id))
-    id = request.GET.get('id')
-    print(int(id))
+    id = request.GET.get('id', '1')
+    # print(id)
+    # print(int(id))
     response = {}
     tmp_data = getequipmentalarm(int(id))
     test1 = {'deviceTotalCount': 1, 'normalDeviceCount': 1, 'warningDeviceCount': 1, 'faultyDeviceCount': 0, 'offlineDeviceCount': 0, 'unregistedDeviceCount': 0, 'alarmCriticalCount': 0, 'alarmMajorCount': 0, 'alarmMinorCount': 0, 'alarmWarningCount': 0}
