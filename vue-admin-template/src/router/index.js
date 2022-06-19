@@ -167,7 +167,7 @@ export const constantRoutes = [
         path: 'Show',
         name: 'show',
         component: () => import('@/views/test/index'),
-        meta: {title: 'show', icon: 'form'}
+        meta: {title: '站点的柱状图/饼状图', icon: 'form'}
       }
     ]
   },
@@ -179,7 +179,7 @@ export const constantRoutes = [
         path: 'MapShow',
         name: 'mapshow',
         component: () => import('@/views/mapshow/index'),
-        meta: {title: 'mapshow', icon: 'form'}
+        meta: {title: '查看站点地图', icon: 'form'}
       }
     ]
   },

@@ -12,7 +12,9 @@ urlpatterns = [
     path('show_token/', get_api.show_token),
 
     path('getSiteData/', querysites.getSiteData),
-
+    path('getsitemap/', querysites.getsitesmap),
+    path('getsitetypedata/', querysites.querysitesdata),
+    path('queryresultbyquerysitesdata/', querysites.queryresultbyquerysitesdata),
     # path('user/getinfo', login.getinfo),
 
 ]
