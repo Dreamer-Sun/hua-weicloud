@@ -20,13 +20,15 @@ headers = {
     "X-ACCESS-TOKEN": tokenid
 }
 params = {
-        "pageIndex": 1,
-        "pageSize": 100
-          }
+    "pageIndex": 1,
+    "pageSize": 100
+}
+
+
 def GetSiteId():
     SiteIdList = []
     res = requests.get(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v3/sites',
-                       headers=headers,)
+                       headers=headers, )
     total = res.json().get('totalRecords')
     num = int((int(total) / 100)) + 1
     for i in range(num):
@@ -38,7 +40,6 @@ def GetSiteId():
         data = res_data.get('data')
         for j in range(len(data)):
             SiteIdList.append(data[j]["id"])
-
 
     print(len(SiteIdList))
     print(SiteIdList)
@@ -53,7 +54,7 @@ def QuerySites():
     """
     SiteDataList = []
     res = requests.get(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v3/sites',
-                       headers=headers,)
+                       headers=headers, )
     total = res.json().get('totalRecords')
     num = int((int(total) / 100)) + 1
     for i in range(num):
@@ -249,6 +250,7 @@ class MyThread(threading.Thread):
     #         ctypes.c_long(self.ident), ctypes.py_object(SystemExit)
     #     )
 
+
 def check_contain_chinese(check_str):
     """
     判断函数 判断字符串是否是中文
@@ -270,58 +272,113 @@ def QuerySitesdData():
     """
     global isEnd
     isEnd = 0
+    countrymessege = {}
     print("Now is Threading1")
 
     res = requests.get(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v3/sites',
                        headers=headers)
     res_data = res.json()
-    tmp_data = res_data.get('data')
-    data = []
-    for i in tmp_data:
-        # “纬度”【 Latitude】
-        xsite = i.get('latitude')
-        # “经度”【longitude】、
-        ysite = i.get('longitude')
-        type = i.get('type')
-        # data.append({'value': [xsite, ysite], 'itemStyle': {'color': '#d26309'}})
-        data.append({'value': [ysite, xsite], 'type': type})
-    # print(data)
-    # 根据经纬度判断站点在哪个国家
-    # geolocator = Nominatim()
+    # 站点总数
+    totalRecords = res_data.get('totalRecords')
+    # print(totalRecords)
     countrydata = []
-    geolocator = Nominatim(user_agent='BuyiXiao')
-    for i in data:
-        latitu = i.get('value')[0]
-        longitu = i.get('value')[1]
-        point = "%s, %s" % (longitu, latitu)
-        # 位置坐标
-        # print(point)
-        # 假数据
-        # point = ("38.9122, 121.602")
-        location = geolocator.reverse(point)
-        # 位置信息，识别的时间随着数据的增加而增加
-        # print(location.address.split(',')[-1].replace(' ', ''))
-        # 这是国家名称
-        countryname = location.address.split(',')[-1].replace(' ', '')
-        # 因为所有站点中中国居多，这里判断一下，如果是中国，那么再细化分省份，否则使用国家名称
-        if countryname == '中国':
-            # 是不是中文
-            flag = check_contain_chinese(location.address.split(',')[-2].replace(' ', ''))
-            # print(flag)
-            if flag:
-                countryname = location.address.split(',')[-2].replace(' ', '')
+    typedata = []
+    sitetype = []
+    sitetypenum = []
+    page = int(totalRecords / 100) + 2
+    for i in range(1, page):
+        print("正在识别第%d页" % i)
+        q = {'pageIndex': str(i), 'pageSize': 100}
+        # print(i)
+
+        # print(q)
+        thispage = requests.get(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v3/sites',
+                                params=q,
+                                headers=headers
+                                )
+        thispagedata = thispage.json()
+        # print(thispagedata)
+        tmp_data = thispagedata.get('data')
+        data = []
+        for i in tmp_data:
+            # “纬度”【 Latitude】
+            xsite = i.get('latitude')
+            # “经度”【longitude】、
+            ysite = i.get('longitude')
+            type = i.get('type')
+            # data.append({'value': [xsite, ysite], 'itemStyle': {'color': '#d26309'}})
+            data.append({'value': [ysite, xsite], 'type': type})
+        print("data: ", data)
+        # 根据经纬度判断站点在哪个国家
+        # geolocator = Nominatim()
+        geolocator = Nominatim(user_agent='BuyiXiao')
+        for i in data:
+            latitu = i.get('value')[0]
+            longitu = i.get('value')[1]
+            point = "%s, %s" % (longitu, latitu)
+            # 位置坐标
+            # print(point)
+            # 假数据
+            # point = ("38.9122, 121.602")
+            location = geolocator.reverse(point)
+            # 位置信息，识别的时间随着数据的增加而增加
+            # print(location.address.split(',')[-1].replace(' ', ''))
+            # 这是国家名称
+            countryname = location.address.split(',')[-1].replace(' ', '')
+            # 因为所有站点中中国居多，这里判断一下，如果是中国，那么再细化分省份，否则使用国家名称
+            if countryname == '中国':
+                # 是不是中文
+                flag = check_contain_chinese(location.address.split(',')[-2].replace(' ', ''))
+                # print(flag)
+                if flag:
+                    countryname = location.address.split(',')[-2].replace(' ', '')
+                else:
+                    countryname = location.address.split(',')[-3].replace(' ', '')
+                # print(countryname)
             else:
-                countryname = location.address.split(',')[-3].replace(' ', '')
-            # print(countryname)
-        else:
-            countryname = countryname
-        countrydata.append(countryname)
-        # print(len(location.address))
+                countryname = countryname
+            countrydata.append(countryname)
+        for i in data:
+            typedata.append(str(i.get('type')).replace('[', '').replace(']', ''))
+        # print(typedata)
+        typeda = set(typedata)
+        for i in typeda:
+            if typedata.count(i) >= 1:
+                print("元素{}, 重复{}次".format(i, typedata.count(i)))
+                if len(sitetype):
+                    a = 0  # "索引"
+                    tmpflag = 1  # 用来判断是不是遍历了所有的列表元素
+                    print("sitetype", sitetype)
+                    for j in sitetype:
+                        # print(a)
+                        print(j)
+                        if i == j:
+                            print("存在相同元素，只保留一个")
+                            sitetypenum[a] += typedata.count(i)
+                            a += 1
+                        elif tmpflag == len(sitetype):
+                            print("遍历所有元素没有相同的，添加一个")
+                            sitetype.append(i)
+                            sitetypenum.append(typedata.count(i))
+                        else:
+                            print("两个元素不相同")
+                            # sitetype.append(i)
+                            # sitetypenum.append(typedata.count(i))
+                            tmpflag += 1
+                            a += 1
+                else:
+                    print("列表是空的，添加一个元素,这句应该只执行一次")
+                    sitetype.append(i)
+                    sitetypenum.append(typedata.count(i))
+    countrymessege.update({'sitetype': sitetype, 'sitetypenum': sitetypenum})
+    print(countrymessege)
+    # print(len(location.address))
     # location = geolocator.reverse("38.9122, 121.602")
     # print((location.latitude, location.longitude))
     # print(location.raw)
     # 显示所有的国家名字列表
     # print(countrydata)
+    print("站点一共有", len(countrydata), "个")
     tempcon = set(countrydata)
     xaxisdata = []
     histigramsitenum = []
@@ -331,29 +388,26 @@ def QuerySitesdData():
             xaxisdata.append(i)
             histigramsitenum.append(countrydata.count(i))
             # q = {"%s" % i: countrydata.count(i)}
-    print(xaxisdata)
-    print(xaxisdata[0])
-    q = {'xaxisdata': xaxisdata, 'sitenum': histigramsitenum}
+    # print(xaxisdata)
+    # print(xaxisdata[0])
+    countrymessege.update({'xaxisdata': xaxisdata, 'sitenum': histigramsitenum})
     # q = {'xaxisdata': '河北省', '北京市', '天津市', 'histigramsitenum': 37, 51, 12}
     # print(q)
-    typedata = []
-    sitetype = []
-    sitetypenum = []
-    for i in data:
-        typedata.append(str(i.get('type')).replace('[', '').replace(']', ''))
-    # print(typedata)
-    typeda = set(typedata)
-    for i in typeda:
-        if typedata.count(i) >= 1:
-            print("元素{}, 重复{}次".format(i, typedata.count(i)))
 
-            sitetype.append(i)
-            sitetypenum.append(typedata.count(i))
-
-    q.update({'sitetype': sitetype, 'sitetypenum': sitetypenum})
-    print(q)
+    # for i in data:
+    #     typedata.append(str(i.get('type')).replace('[', '').replace(']', ''))
+    # # print(typedata)
+    # typeda = set(typedata)
+    # for i in typeda:
+    #     if typedata.count(i) >= 1:
+    #         print("元素{}, 重复{}次".format(i, typedata.count(i)))
+    #         sitetype.append(i)
+    #         sitetypenum.append(typedata.count(i))
+    #
+    # countrymessege.update({'sitetype': sitetype, 'sitetypenum': sitetypenum})
+    print(countrymessege)
     isEnd = 1
-    return q
+    return countrymessege
 
 
 def QueryResultByQuerySitesdData():
@@ -375,12 +429,14 @@ def QueryResultByQuerySitesdData():
             time.sleep(8)
     return flag
 
+
 # 创建两个线程
 # for i in range(5):
 #     locals()['t' + str(i)] = MyThread(func=QuerySitesdData)
 #     locals()['t' + str(i + 1)] = MyThread(func=QueryResultByQuerySitesdData)
 t1 = MyThread(func=QuerySitesdData)
 t2 = MyThread(func=QueryResultByQuerySitesdData)
+
 
 @require_http_methods(["GET"])
 def queryresultbyquerysitesdata(request):
@@ -435,6 +491,7 @@ def querysitesdata(request):
         response['msg'] = str(e)
         response['error_num'] = 1
     return JsonResponse(response)
+
 
 # if __name__ == '__main__':
 #     isEnd = 0
