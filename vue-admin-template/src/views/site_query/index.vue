@@ -82,9 +82,36 @@ export default {
   },
 
   methods: {
-    filterNode(value, data) {
-      if (!value) return true
-      return data.label.indexOf(value) !== -1
+    filterNode(value, data, node) {
+      //查询显示当前节点
+      /*if (!value) return true;
+      return data.label.indexOf(value) !== -1;*/
+      console.log(value, data, node)
+	  //如果共有三级菜单，查询显示当前节点及所有子节点
+      if (!value) return true;
+      let if_one = data.label.indexOf(value) !== -1;
+      let if_two =
+        node.parent &&
+        node.parent.data &&
+        node.parent.data.label &&
+        node.parent.data.label.indexOf(value) !== -1;
+      let if_three =
+        node.parent &&
+        node.parent.parent &&
+        node.parent.parent.data &&
+        node.parent.parent.data.label &&
+        node.parent.parent.data.label.indexOf(value) !== -1;
+      let result_one = false;
+      let result_two = false;
+      let result_three = false;
+      if (node.level === 1) {
+        result_one = if_one;
+      } else if (node.level === 2) {
+        result_two = if_one || if_two;
+      } else if (node.level === 3) {
+        result_three = if_one || if_two || if_three;
+      }
+      return result_one || result_two || result_three;
     },
     GetData(){
         getSiteData().then((res) => {
