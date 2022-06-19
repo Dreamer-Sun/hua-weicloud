@@ -40,7 +40,7 @@ export default {
   methods: {
     Showtoken() {
       show_token().then((res) => {
-        console.log("This is token")
+        // console.log("This is token")
         this.tokenin = res.token;
         console.log(this.tokenin);
       })

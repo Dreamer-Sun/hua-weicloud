@@ -34,7 +34,7 @@ def Get_Token():
     res_data = res.json()
     # print(res_data)
     tokenid = res_data.get('data').get('token_id')
-    print(tokenid)
+    # print(tokenid)
     return tokenid
 
 @require_http_methods(["GET"])

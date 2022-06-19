@@ -14,6 +14,11 @@ urlpatterns = [
 
     path('getSiteData/', querysites.getSiteData),
 
+    path('getsitemap/', querysites.getsitesmap),
+    path('getsitetypedata/', querysites.querysitesdata),
+    path('queryresultbyquerysitesdata/', querysites.queryresultbyquerysitesdata),
+
+
     path('getEquipmentAlarm/', equipment_alarm.getEquipmentAlarm),
     path('getSiteId/', equipment_alarm.getSiteId),
     path('create_site/', create_site.createsite)
