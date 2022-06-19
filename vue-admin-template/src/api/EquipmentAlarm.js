@@ -1,6 +1,7 @@
 import request from "@/utils/request";
 
 
+
 export function equipmentAlarm(params) {
   console.log("here is equipmentAlarm api", params)
   return request({
