@@ -12,17 +12,13 @@
           <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
         </span>
       </el-dialog>
-    <el-button
-      type="primary"
-      style="margin-left: 20px"
-      @click="SelectId(); dialogVisible3 = true"
-      >测试
-    </el-button>
+
       <el-button
       type="primary"
       style="margin-left: 20px"
       @click="getEquipmentAlarm(); dialogVisible = false"
       >点击获取告警信息列表({{SiteIdNum}})</el-button>
+      <p> </p>
 
     <!--此处枚举出每个站点下设备告警数量-->
     <el-collapse v-for="(value,index) in SiteId" v-model="activeNames"  @change="handleChange(index)" accordion>
@@ -105,22 +101,7 @@ export default {
 
       })
 
-      },
-    SelectId(){
-      console.log("SelectId");
-        let p ={
-          "id": 1
-        }
-        // let q = JSON.stringify(p)
-        // console.log(q)
-        // console.log(typeof q)
-        equipmentAlarm(p).then((res)=>{
-          console.log("---equipmentAlarm---");
-          console.log(res.data);
-
-
-      })
-    }
+      }
 
   }
 }

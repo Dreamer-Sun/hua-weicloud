@@ -83,8 +83,24 @@
 
     <el-button style="margin-left: 20px" type="primary" @click="onSubmit">立即创建</el-button>
     <el-button>取消</el-button>
+    <el-button @click="viewSite">查看创建站点信息</el-button>
 
+    <el-dialog
+      title="创建站点列表"
+      :visible.sync="dialogVisible"
+      width="50%"
+      >
+      <el-tree :data="treeData" :props="defaultProps"></el-tree>
+
+
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </el-form>
+
 
 
 
@@ -98,6 +114,7 @@ import  axios from 'axios'			//引入axios
     data() {
 
       return {
+
         form: {
           name: '',
           description: '',
@@ -116,8 +133,11 @@ import  axios from 'axios'			//引入axios
           cfgOriginType:'',
           cloneDevices:"false"
         },
+        errmsg:'',
         data: [],
+        treeData: [],
         value: [],
+        dialogVisible: false,
         siteList:[],
         SelectSite:[],
         name:[],
@@ -154,7 +174,11 @@ import  axios from 'axios'			//引入axios
         }],
         //value3 是指isolated  value4是指cloneDevices
         value3:'',
-        value4:''
+        value4:'',
+        defaultProps: {
+          children: 'children',
+          label: 'label'
+        }
       }
     },
     methods: {
@@ -177,11 +201,22 @@ import  axios from 'axios'			//引入axios
           console.log("res.errcode", res.errcode);
           console.log("res.errmsg", res.errmsg);
           console.log("res.fail", res.fail);
+          this.errmsg = res.errmsg;
+          this.treeData = res.success;
 
-          this.$message({
+          if(res.fail.length>0 && res.success.length==0){
+            this.$message.error('创建失败,' + res.fail[0]["errmsg"] );
+          }
+          else if(res.errcode != '0'){
+            this.$message.error('创建失败,' + res.errmsg );
+          }
+          else{
+              this.$message({
               message: '恭喜你，站点创建成功',
               type: 'success'
         });
+          }
+
         });
         // $.ajax({
         //     type: "post",
@@ -220,6 +255,10 @@ import  axios from 'axios'			//引入axios
         // 重置表单
         this.form = this.$options.data().form;
       },
+      viewSite(){
+        this.dialogVisible = true;
+
+      }
 
     }
   }

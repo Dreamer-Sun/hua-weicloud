@@ -95,23 +95,6 @@ def CreateSite(req_data):
         print(len(data))
         for i in range(len(data)):
                 sites = data[i]
-                # sites["name"] = data[i]["name"]
-                # sites["description"] = data[i]["description"]
-                # sites["type"] = data[i]["type"]
-                # sites["pattern"] = data[i]["pattern"]
-                # sites["latitude"] = data[i]["latitude"]
-                # sites["longtitude"] = data[i]["longtitude"]
-                # sites["contact"] = data[i]["contact"]
-                # sites["tag"] = data[i]["tag"]
-                # sites["isolated"] = data[i]["isolated"]
-                # sites["email"] = data[i]["email"]
-                # sites["phone"] = data[i]["phone"]
-                # sites["postcode"] = data[i]["postcode"]
-                # sites["address"] = data[i]["address"]
-                # sites["cfgOriginId"] = data[i]["cfgOriginId"]
-                # sites["cfgOriginType"] = data[i]["cfgOriginType"]
-                # sites["cloneDevices"] = data[i]["cloneDevices"]
-
                 All_Site["sites"].append(sites)
 
 
@@ -120,12 +103,70 @@ def CreateSite(req_data):
                                     headers=headers, json=All_Site)
         res = req.json()
         success = res.get("success", "")
+
         fail = res.get("fail", "")
         errcode = res.get("errcode", "")
         errmsg = res.get("errmsg", "")
         print("CreateSite", res)
+        print("errmsg", errmsg)
         All_Site["sites"] = []
         return success, fail, errcode, errmsg
+
+# 获取创建成功站点数据格式化送入前端
+def treeList(data):
+        arr = []
+        arr2 = {"label": "", "children": []}
+        children = []
+        children2 = {"label": ""}
+        for i in range(len(data)):
+                arr2["label"] = "SiteId:" + data[i]["id"]
+                children2["label"] = "name:" + data[i]["name"]
+                children.append(children2)
+                children2 = {"label": ""}
+                children2["label"] = "description:" + data[i]["description"]
+                children.append(children2)
+                children2 = {"label": ""}
+                children2["label"] = "type:" + str(data[i]["type"])
+                children.append(children2)
+                children2 = {"label": ""}
+                children2["label"] = "pattern:" + str(data[i]["pattern"])
+                children.append(children2)
+                children2 = {"label": ""}
+                children2["label"] = "latitude:" + str(data[i]["latitude"])
+                children.append(children2)
+                children2 = {"label": ""}
+                children2["label"] = "longtitude:" + str(data[i]["longtitude"])
+                children.append(children2)
+                children2 = {"label": ""}
+                children2["label"] = "longitude:" + str(data[i]["longitude"])
+                children.append(children2)
+                children2 = {"label": ""}
+                children2["label"] = "contact:" + str(data[i]["contact"])
+                children.append(children2)
+                children2 = {"label": ""}
+                children2["label"] = "tag:" + str(data[i]["tag"])
+                children.append(children2)
+                children2 = {"label": ""}
+                children2["label"] = "isolated:" + str(data[i]["isolated"])
+                children.append(children2)
+                children2 = {"label": ""}
+                children2["label"] = "email:" + str(data[i]["email"])
+                children.append(children2)
+                children2 = {"label": ""}
+                children2["label"] = "phone:" + str(data[i]["phone"])
+                children.append(children2)
+                children2 = {"label": ""}
+                children2["label"] = "postcode:" + str(data[i]["postcode"])
+                children.append(children2)
+                children2 = {"label": ""}
+                children2["label"] = "address:" + str(data[i]["address"])
+                children.append(children2)
+                children2 = {"label": ""}
+                arr2["children"] = children
+                arr.append(arr2)
+        print("treeList", arr)
+        return arr
+
 
 def DataFix(list):
         print("-----here is DataFix-------")
@@ -167,6 +208,7 @@ def createsite(request):
         data["sites"] = After_fix
         success, fail, errcode, errmsg = CreateSite(data)
         print(success)
+        success = treeList(success)
         try:
                 response["success"] = success
                 response["fail"] = fail
