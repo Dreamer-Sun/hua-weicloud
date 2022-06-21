@@ -22,14 +22,13 @@ headers = {
     "X-ACCESS-TOKEN": tokenid
 }
 
-UpdateSiteId = {"name": "updateSite", "description": "", "latitude": "", "longtitude": "", "contact": "", "tag": ["abcd"], "isolated": False, "type": ["AR","AR"], "email": "", "phone":
- "", "postcode": "", "address": ""}
-
+UpdateSiteId = {"name": "updateSite2222", "description": "\u6d4b\u8bd5\u66f4\u65b0\u7ad9\u70b9", "latitude": "", "longtitude": "", "contact": "", "tag": ["abcd"], "isolated": False
+, "email": "", "phone": "", "postcode": "", "address": ""}
 
 def DataFix(list):
     print("-----here is DataFix-------")
 
-    list["type"] = eval(list["type"])
+
     if list["isolated"] == 'false':
         list["isolated"] = False
     else:
@@ -45,10 +44,10 @@ def DataFix(list):
 
 def UpdateSite(siteId, body):
 
-    body = json.dumps(body)
-    print(body)
-
-    req = requests.put(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v3/sites/{'+siteId+'}',
+    # body = json.dumps(body)
+    # print(body)
+    print("发送updateSite请求的body", body)
+    req = requests.put(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v3/sites/'+siteId,
                         headers=headers, json=body)
 
     print("UpdateSite_req", req)
@@ -93,4 +92,4 @@ def updateSite(request):
 
 
 if __name__ == '__main__':
-    UpdateSite('01ebf7bc-0e1d-452c-9b28-34f46a6f80ed', UpdateSiteId)
+    UpdateSite('1a0e4b17-2759-4f98-a34a-67b7dfed9f1d', UpdateSiteId)

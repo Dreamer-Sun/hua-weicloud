@@ -63,18 +63,7 @@
           <el-form-item label="站点描述">
             <el-input placeholder="示例值：site" v-model="form.description"></el-input>
           </el-form-item>
-          <el-form-item label="	站点类型">
-            <!--<el-input placeholder='示例值：["AP"] 混合站点类型集合：默认为AP。可选“AR”、“AP”、“FW”、“AC（Fit AP）”、“LSW”、“ONT”或者“OLT”中一个或多个类型。'v-model="form.type"></el-input>
-            -->
-            <el-select v-model="value2" multiple placeholder="请选择" size="medium">
-                <el-option
-                  v-for="item in options2"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-            </el-select>
-          </el-form-item>
+
           <el-form-item label="	纬度">
             <el-input placeholder="示例值：50 纬度，北纬是正数，南纬是负数，比如北纬30.2度，传入30.2,；南纬50.76度，传入-50.76，纬度范围【-90，+90】"
                       v-model="form.latitude"></el-input>
@@ -200,7 +189,6 @@ export default {
         contact: '',
         tag: '["abcd"]',
         isolated: "false",
-        type: '["AP"]',
         email: '',
         phone: '',
         postcode: '',
