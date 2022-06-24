@@ -79,6 +79,33 @@ export const constantRoutes = [
         name: 'create_site',
         component: () => import('@/views/create_site/index'),
         meta: { title: '创建站点', icon: 'tree' }
+      },
+      {
+        path: 'mapshow',
+        name: 'mapshow',
+        component: () => import('@/views/mapshow/index'),
+        meta: { title: '查看站点地图', icon: 'tree'}
+      }
+    ]
+  },
+  {
+    path: '/Device_management',
+    component: Layout,
+    redirect: '/Device_management/device_manage',
+    name: 'Device_management',
+    meta: { title: '设备处理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'device_manage',
+        name: 'device_manage',
+        component: () => import('@/views/test/index'),
+        meta: {title: '站点设备管理', icon: 'tree'}
+      },
+      {
+        path: 'device_manage2',
+        name: 'device_manage2',
+        component: () => import('@/views/test/index'),
+        meta: {title: '新页面', icon: 'tree'}
       }
     ]
   },
@@ -162,30 +189,6 @@ export const constantRoutes = [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
         meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
-  {
-    path:'/tokenshow',
-    component: Layout,
-    children: [
-      {
-        path: 'Show',
-        name: 'show',
-        component: () => import('@/views/test/index'),
-        meta: {title: '站点的柱状图/饼状图', icon: 'form'}
-      }
-    ]
-  },
-  {
-    path:'/mapshow',
-    component: Layout,
-    children: [
-      {
-        path: 'MapShow',
-        name: 'mapshow',
-        component: () => import('@/views/mapshow/index'),
-        meta: {title: '查看站点地图', icon: 'form'}
       }
     ]
   },

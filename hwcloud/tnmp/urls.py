@@ -4,6 +4,8 @@ from . import views
 from tnmp.api import get_api
 from tnmp.manage import querysites, equipment_alarm
 from tnmp.manage import create_site
+from tnmp.manage import devicemanagement
+
 app_name = 'tnmp'
 
 urlpatterns = [
@@ -12,12 +14,15 @@ urlpatterns = [
 
     path('show_token/', get_api.show_token),
 
+    path('getdeviceinfo/', devicemanagement.getdeviceinfo),
+    path('createdevice/', devicemanagement.createdevice),
+    path('deletedevice/', devicemanagement.delete_device),
+
     path('getSiteData/', querysites.getSiteData),
 
     path('getsitemap/', querysites.getsitesmap),
     path('getsitetypedata/', querysites.querysitesdata),
     path('queryresultbyquerysitesdata/', querysites.queryresultbyquerysitesdata),
-
 
     path('getEquipmentAlarm/', equipment_alarm.getEquipmentAlarm),
     path('getSiteId/', equipment_alarm.getSiteId),
