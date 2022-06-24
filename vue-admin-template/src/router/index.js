@@ -72,7 +72,7 @@ export const constantRoutes = [
         path: 'site_query',
         name: 'site_query',
         component: () => import('@/views/site_query/index'),
-        meta: { title: '站点查询', icon: 'tree' }
+        meta: { title: '站点查询修改及删除', icon: 'tree' }
       },
       {
         path: 'create_site',
