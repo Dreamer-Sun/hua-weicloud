@@ -94,10 +94,18 @@
       <el-table-column
         label="设备名称"
         prop="name">
+        <template slot-scope="scope">
+          <div v-if="!scope.row.isEdit">{{ scope.row.name }}</div>
+          <div v-else><el-input v-model="scope.row.name"></el-input></div>
+        </template>
       </el-table-column>
       <el-table-column
         label="设备ESN号"
         prop="esn">
+        <template slot-scope="scope">
+          <div v-if="!scope.row.isEdit">{{ scope.row.esn }}</div>
+          <div v-else><el-input v-model="scope.row.esn"></el-input></div>
+        </template>
       </el-table-column>
       <el-table-column
         label="设备款型"
@@ -114,6 +122,10 @@
       <el-table-column
         label="设备所属站点ID"
         prop="siteId">
+        <template slot-scope="scope">
+          <div v-if="!scope.row.isEdit">{{ scope.row.siteId }}</div>
+          <div v-else><el-input v-model="scope.row.siteId"></el-input></div>
+        </template>
       </el-table-column>
       <el-table-column
         label="设备MAC"
@@ -138,10 +150,18 @@
       <el-table-column
         label="设备备注信息"
         prop="description">
+        <template slot-scope="scope">
+          <div v-if="!scope.row.isEdit">{{ scope.row.description }}</div>
+          <div v-else><el-input v-model="scope.row.description"></el-input></div>
+        </template>
       </el-table-column>
       <el-table-column
         label="资产编号"
         prop="resourceId">
+        <template slot-scope="scope">
+          <div v-if="!scope.row.isEdit">{{ scope.row.resourceId }}</div>
+          <div v-else><el-input v-model="scope.row.resourceId"></el-input></div>
+        </template>
       </el-table-column>
       <el-table-column
         label="租户ID"
@@ -174,10 +194,18 @@
       <el-table-column
         label="设备标签列表"
         prop="tags">
+        <template slot-scope="scope">
+          <div v-if="!scope.row.isEdit">{{ scope.row.tags }}</div>
+          <div v-else><el-input v-model="scope.row.tags"></el-input></div>
+        </template>
       </el-table-column>
       <el-table-column
         label="系统IP地址"
         prop="systemIp">
+        <template slot-scope="scope">
+          <div v-if="!scope.row.isEdit">{{ scope.row.systemIp }}</div>
+          <div v-else><el-input v-model="scope.row.systemIp"></el-input></div>
+        </template>
       </el-table-column>
       <el-table-column
         label="设备补丁版本"
@@ -186,6 +214,19 @@
       <el-table-column
         label="开局使能开关"
         prop="ztpConfirm">
+        <template slot-scope="scope">
+          <div v-if="!scope.row.isEdit">{{ scope.row.ztpConfirm }}</div>
+          <div v-else>
+            <el-select v-model="value" placeholder="">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
+        </template>
       </el-table-column>
       <el-table-column
         label="设备管理状态"
@@ -202,12 +243,19 @@
       <el-table-column
         label="设备角色"
         prop="role">
+<!--        <template slot-scope="scope">-->
+<!--          <div v-if="!scope.row.isEdit">{{ scope.row.role }}</div>-->
+<!--          <div v-else><el-input v-model="scope.row.role"></el-input></div>-->
+<!--        </template>-->
       </el-table-column>
-
       <el-table-column
-        prop="deletedevice">
+        prop="deletedevice" label="处理">
         <template slot-scope="scope">
+          <el-button size="mini" @click="EditDev(scope.$index, scope.row)">
+            {{ scope.row.isEdit ? "完成" : "编辑" }}
+          </el-button>
           <el-popconfirm
+            size="mini"
             confirm-button-text="确认"
             cancel-button-text="取消"
             icon="el-icon-info"
@@ -218,7 +266,9 @@
           >
             <el-button
               slot="reference"
+              style="margin-left: 10px"
               type="danger"
+              size="mini"
               circle
               icon="el-icon-delete"
             ></el-button>
@@ -261,7 +311,7 @@
 import {
   show_token
 } from "@/api/tok";
-import {createdevice, deletedevice, getdeviceinfo} from "@/api/devicemanage";
+import {createdevice, deletedevice, getdeviceinfo, changedevice} from "@/api/devicemanage";
 
 export default {
   data() {
@@ -281,171 +331,17 @@ export default {
       inputtags: '',
       inputztpConfirm: '',
       inputrole: '',
-      tableData: [{
-        id: "1befef7f-2114-4e07-b86d-131112c45e56",
-        name: "AirEngine9700D_M7046D819",
-        esn: "1019C0072655",
-        deviceModel: "AirEngine9700D-M",
-        deviceType: "AP",
-        status: "0",
-        siteId: null,
-        mac: "84-46-FE-F8-0C-11",
-        ip: "119.8.241.126",
-        neType: "AirEngine9700D-M",
-        version: "V200R020C10SPC100",
-        vendor: "HUAWEI",
-        description: "",
-        resourceId: null,
-        tenantId: "8b45c790a0fe46438a625616cf18dcfe",
-        tenantName: "C4_huawei_qiankun",
-        siteName: null,
-        createTime: "2022-04-24 17:26:07",
-        registerTime: "2022-04-24 17:37:28",
-        modifyTime: null,
-        startupTime: "2022-04-22 01:53:05",
-        tags: null,
-        systemIp: null,
-        patchVersion: null,
-        ztpConfirm: false,
-        manageStatus: "NORMAL",
-        manageStatusDownReason: [],
-        role: [
-          "ACC"
-        ],
-        performance: 0
-      },
+      tableData: [],
+      options: [
         {
-          id: "b7efe28f-e368-4f5c-bbd7-67b2854a5acd",
-          name: "2102351BTJ0000000665",
-          esn: "2102351BTJ0000000665",
-          deviceModel: "AR161EW",
-          deviceType: "AR",
-          status: "4",
-          siteId: null,
-          mac: null,
-          ip: null,
-          neType: "AR161EW",
-          version: null,
-          vendor: null,
-          description: null,
-          resourceId: null,
-          tenantId: "8b45c790a0fe46438a625616cf18dcfe",
-          tenantName: "C4_huawei_qiankun",
-          siteName: null,
-          createTime: "2022-06-10 22:44:31",
-          registerTime: null,
-          modifyTime: null,
-          startupTime: null,
-          tags: null,
-          systemIp: null,
-          patchVersion: null,
-          ztpConfirm: false,
-          manageStatus: "NORMAL",
-          manageStatusDownReason: [],
-          role: [
-            "ACC"
-          ],
-          performance: 0
-        },
+        value: '1',
+        label: 'true'
+         },
         {
-          id: "4c2b223f-284b-4a06-b19b-dfead0c81dbc",
-          name: "AP",
-          esn: "",
-          deviceModel: "AP2050DN",
-          deviceType: "AP",
-          status: "4",
-          siteId: "794e25a1-2400-488e-9d1a-33d863b975b8",
-          mac: null,
-          ip: null,
-          neType: "AP2050DN",
-          version: null,
-          vendor: null,
-          description: "AP",
-          resourceId: null,
-          tenantId: "8b45c790a0fe46438a625616cf18dcfe",
-          tenantName: "C4_huawei_qiankun",
-          siteName: "site",
-          createTime: "2022-05-29 23:14:49",
-          registerTime: null,
-          modifyTime: null,
-          startupTime: null,
-          tags: null,
-          systemIp: "",
-          patchVersion: null,
-          ztpConfirm: false,
-          manageStatus: "NORMAL",
-          manageStatusDownReason: [],
-          role: [
-            "AP"
-          ],
-          performance: 0
-        },
-        {
-          id: "46384ccf-72fb-43d7-8f2d-763f515c8921",
-          name: "AP1",
-          esn: "2102351BTJ0000000699",
-          deviceModel: "AD9430DN-12",
-          deviceType: "AP",
-          status: "4",
-          siteId: "49f552e3-ebb2-4946-aa9a-d031dabc83d8",
-          mac: null,
-          ip: null,
-          neType: "AD9430DN-12",
-          version: null,
-          vendor: null,
-          description: "AP",
-          resourceId: null,
-          tenantId: "8b45c790a0fe46438a625616cf18dcfe",
-          tenantName: "C4_huawei_qiankun",
-          siteName: "site85",
-          createTime: "2022-06-10 17:31:18",
-          registerTime: null,
-          modifyTime: null,
-          startupTime: null,
-          tags: null,
-          systemIp: "192.168.56.1",
-          patchVersion: null,
-          ztpConfirm: false,
-          manageStatus: "NORMAL",
-          manageStatusDownReason: [],
-          role: [
-            "AP"
-          ],
-          performance: 0
-        },
-        {
-          id: "5b5512e3-4202-4645-99d4-f405cfa8a367",
-          name: "AP1",
-          esn: "2102351BTJ0000000111",
-          deviceModel: "AP2050DN",
-          deviceType: "AP",
-          status: "4",
-          siteId: "794e25a1-2400-488e-9d1a-33d863b975b8",
-          mac: null,
-          ip: null,
-          neType: "AP2050DN",
-          version: null,
-          vendor: null,
-          description: "AP1",
-          resourceId: null,
-          tenantId: "8b45c790a0fe46438a625616cf18dcfe",
-          tenantName: "C4_huawei_qiankun",
-          siteName: "site",
-          createTime: "2022-05-29 23:30:20",
-          registerTime: null,
-          modifyTime: null,
-          startupTime: null,
-          tags: null,
-          systemIp: "192.168.1.103",
-          patchVersion: null,
-          ztpConfirm: false,
-          manageStatus: "ABNORMAL",
-          manageStatusDownReason: [],
-          role: [
-            "AP"
-          ],
-          performance: 0
-        }]
+          value: '2',
+          label: 'false'
+        }],
+      value: ''
     }
   },
   created() {
@@ -463,9 +359,25 @@ export default {
       getdeviceinfo(p).then((res) => {
         // console.log(res.data[0])
         this.tableData = res.data[0].datainfo
+        // console.log(this.tableData)
+        for (let i = 0; i < this.tableData.length; i++) {
+          if(this.tableData[i].tags == null) {
+            // console.log("tags是空的")
+          }
+          else {
+            this.tableData[i].tags = (this.tableData[i].tags).join(',')
+          }
+          if(this.tableData[i].role == null) {
+            // console.log("role是空的")
+          }
+          else {
+            this.tableData[i].role = (this.tableData[i].role).join(',')
+          }
+        }
+        // console.log(this.tableData)
         this.totalRecords = res.data[0].totalRecords
         this.$message({
-          message: 'Success!',
+          message: 'Get data success!!',
           type: 'success'
         })
       })
@@ -549,6 +461,50 @@ export default {
         })
       })
     },
+    EditDev(index, row) {
+      // this.GetDeviceInfo();
+      if (row.isEdit) {
+        let p = {
+            deviceid: this.tableData[index].id,
+            data: {
+              name: this.tableData[index].name,
+              description: this.tableData[index].description,
+              resourceId: this.tableData[index].resourceId,
+              siteId: this.tableData[index].siteId,
+              esn: this.tableData[index].esn,
+              tags: [this.tableData[index].tags],
+              systemIp: this.tableData[index].systemIp,
+              ztpConfirm: JSON.stringify(this.tableData[index].ztpConfirm),
+              role: [this.tableData[index].role]
+            }
+        };
+        // console.log("这里是p的值" ,p)
+        changedevice(p).then((res) => {
+          console.log(res);
+          if(res.data.errcode === "0"){
+            this.$message({
+            message: "Change Success!!!",
+            type: "info",
+            showClose: true,
+            duration: 5000,
+            onClose: this.GetDeviceInfo
+          });
+          }
+          else {
+            this.$message({
+            message: res.data.errmsg,
+            type: "info",
+            showClose: true,
+            duration: 6000,
+          });
+          }
+        });
+        this.$set(row, "isEdit", false);
+      } else {
+        // 设置为编辑状态
+        this.$set(row, "isEdit", true);
+      }
+      },
   }
 }
 </script>

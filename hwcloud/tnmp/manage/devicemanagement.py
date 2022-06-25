@@ -130,3 +130,40 @@ def delete_device(request):
         response['msg'] = str(e)
         response['error_num'] = 1
     return JsonResponse(response)
+
+
+def ChangeDevice(deviceid, data):
+    """
+    修改设备信息
+    :param deviceid: 设备id
+    :param data: 传入的修改设备的信息
+    :return:
+    """
+    null = ""
+    body = eval(data)
+    res = requests.put(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v3/devices/' + deviceid,
+                       json=body,
+                       headers=headers)
+    tmp_data = res.json()
+    print(tmp_data)
+    return tmp_data
+
+
+@require_http_methods(['PUT'])
+def change_device(request):
+    """
+    前端请求修改数据
+    :param request: put请求
+    :return:
+    """
+    device_id = request.GET.get('deviceid')
+    body_params = request.GET.get('data')
+    response = {}
+    tmp_data = ChangeDevice(device_id, body_params)
+    try:
+        response["data"] = tmp_data
+        response['code'] = 20000
+    except Exception as e:
+        response['msg'] = str(e)
+        response['error_num'] = 1
+    return JsonResponse(response)
