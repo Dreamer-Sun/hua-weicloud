@@ -56,6 +56,8 @@ def QuerySites():
     res = requests.get(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v3/sites',
                        headers=headers, )
     total = res.json().get('totalRecords')
+    print("QuerySites_total", total)
+    num = 1
     num = int((int(total) / 100)) + 1
     for i in range(num):
         params["pageIndex"] = i + 1
@@ -154,7 +156,7 @@ def QuerySites():
     for i in range(len(SiteDataList)):
         child["id"] = num
         num = num + 1
-        child["label"] = "SiteId:" + SiteDataList[i]["id"]
+        child["label"] = str(i+1) + "、SiteId:" + SiteDataList[i]["id"]
         child["children"] = children2[i]
         after_data.append(child)
         child = {}
