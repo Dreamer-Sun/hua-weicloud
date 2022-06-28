@@ -287,7 +287,10 @@ def QuerySitesdData():
     typedata = []
     sitetype = []
     sitetypenum = []
-    page = int(totalRecords / 100) + 2
+
+    # page = int(totalRecords / 100) + 2
+    page = 1
+
     for i in range(1, page):
         print("正在识别第%d页" % i)
         q = {'pageIndex': str(i), 'pageSize': 100}

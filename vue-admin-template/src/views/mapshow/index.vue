@@ -405,7 +405,7 @@ export default {
     openFullScreen() {
       const loading = this.$loading({
         lock: true,
-        text: '努力加载中,共需要约20秒',
+        text: '努力加载中',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       });

@@ -32,3 +32,15 @@ export function deletedevice(params) {
       },
   })
 }
+
+export function changedevice(params) {
+  // console.log("此处可以用changedevice", params)
+  return request({
+    url: '/api/changedevice/',
+    method: 'put',
+    params,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+  })
+}
