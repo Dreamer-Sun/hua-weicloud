@@ -13,22 +13,22 @@
       style="width: 100%">
       <el-table-column
         prop="siteId"
-        label="siteId"
+        label="siteId/站点ID"
         width="360">
       </el-table-column>
       <el-table-column
         prop="appDimension"
-        label="appDimension"
+        label="appDimension/查询维度"
         width="fix">
       </el-table-column>
       <el-table-column
         prop="timeDimension"
-        label="timeDimension"
+        label="timeDimension/统计周期"
         width="fix">
       </el-table-column>
         <el-table-column
         prop="top"
-        label="top"
+        label="top/top流量数据个数"
         width="fix">
       </el-table-column>
     </el-table>
