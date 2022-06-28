@@ -4,10 +4,41 @@
 
 
   <div>
-    <el-button type="primary" @click="queryTopN">请选择需查询终端TopN应用流量:</el-button>
-    <el-cascader :options="topNlist" v-model="select_topN"clearable></el-cascader>
+    <el-button type="primary" @click="GetTopN">请点击获取需查询终端TopN应用流量列表:</el-button>
+    <el-cascader :options="topNlist" v-model="select_topN" filterable clearable></el-cascader>
+    <el-button type="primary" @click="queryTopN">点击查询</el-button>
+
+      <el-table
+      :data="tableData"
+      style="width: 100%">
+      <el-table-column
+        prop="siteId"
+        label="siteId"
+        width="360">
+      </el-table-column>
+      <el-table-column
+        prop="appDimension"
+        label="appDimension"
+        width="fix">
+      </el-table-column>
+      <el-table-column
+        prop="timeDimension"
+        label="timeDimension"
+        width="fix">
+      </el-table-column>
+        <el-table-column
+        prop="top"
+        label="top"
+        width="fix">
+      </el-table-column>
+    </el-table>
 
     <div id="main" style="width: 600px; height: 600px"> </div>
+
+
+
+
+
   </div>
 
 
@@ -16,11 +47,23 @@
 <script>
 // 1.导入echarts
 import * as echarts from 'echarts';
-
+import {getSiteData} from "@/api/getSiteData";
+import {traffic_statistic} from "@/api/traffic_statistics";
 export default {
   data() {
+
     return {
+        tableData: [],
         select_topN : [],
+        siteDataList:[],
+        //饼状图列表
+        applicationList:[
+              { value: 100, name: 'Tiktok' },
+              { value: 300, name: 'WeiXin' },
+              { value: 580, name: 'QQ' },
+              { value: 484, name: '王者荣耀' },
+              { value: 300, name: '绝地求生' }
+            ],
         topN_child: [{
             value: 'app',
             label: 'app',
@@ -168,178 +211,15 @@ export default {
               }]
             }]
           }],
-        topNlist: [{
-          value: 'zhinan',
-          label: '指南',
-          children: this.topN_child
-        }, {
-          value: 'zujian',
-          label: '组件',
-          children: [{
-            value: 'basic',
-            label: 'Basic',
-            children: [{
-              value: 'layout',
-              label: 'Layout 布局'
-            }, {
-              value: 'color',
-              label: 'Color 色彩'
-            }, {
-              value: 'typography',
-              label: 'Typography 字体'
-            }, {
-              value: 'icon',
-              label: 'Icon 图标'
-            }, {
-              value: 'button',
-              label: 'Button 按钮'
-            }]
-          }, {
-            value: 'form',
-            label: 'Form',
-            children: [{
-              value: 'radio',
-              label: 'Radio 单选框'
-            }, {
-              value: 'checkbox',
-              label: 'Checkbox 多选框'
-            }, {
-              value: 'input',
-              label: 'Input 输入框'
-            }, {
-              value: 'input-number',
-              label: 'InputNumber 计数器'
-            }, {
-              value: 'select',
-              label: 'Select 选择器'
-            }, {
-              value: 'cascader',
-              label: 'Cascader 级联选择器'
-            }, {
-              value: 'switch',
-              label: 'Switch 开关'
-            }, {
-              value: 'slider',
-              label: 'Slider 滑块'
-            }, {
-              value: 'time-picker',
-              label: 'TimePicker 时间选择器'
-            }, {
-              value: 'date-picker',
-              label: 'DatePicker 日期选择器'
-            }, {
-              value: 'datetime-picker',
-              label: 'DateTimePicker 日期时间选择器'
-            }, {
-              value: 'upload',
-              label: 'Upload 上传'
-            }, {
-              value: 'rate',
-              label: 'Rate 评分'
-            }, {
-              value: 'form',
-              label: 'Form 表单'
-            }]
-          }, {
-            value: 'data',
-            label: 'Data',
-            children: [{
-              value: 'table',
-              label: 'Table 表格'
-            }, {
-              value: 'tag',
-              label: 'Tag 标签'
-            }, {
-              value: 'progress',
-              label: 'Progress 进度条'
-            }, {
-              value: 'tree',
-              label: 'Tree 树形控件'
-            }, {
-              value: 'pagination',
-              label: 'Pagination 分页'
-            }, {
-              value: 'badge',
-              label: 'Badge 标记'
-            }]
-          }, {
-            value: 'notice',
-            label: 'Notice',
-            children: [{
-              value: 'alert',
-              label: 'Alert 警告'
-            }, {
-              value: 'loading',
-              label: 'Loading 加载'
-            }, {
-              value: 'message',
-              label: 'Message 消息提示'
-            }, {
-              value: 'message-box',
-              label: 'MessageBox 弹框'
-            }, {
-              value: 'notification',
-              label: 'Notification 通知'
-            }]
-          }, {
-            value: 'navigation',
-            label: 'Navigation',
-            children: [{
-              value: 'menu',
-              label: 'NavMenu 导航菜单'
-            }, {
-              value: 'tabs',
-              label: 'Tabs 标签页'
-            }, {
-              value: 'breadcrumb',
-              label: 'Breadcrumb 面包屑'
-            }, {
-              value: 'dropdown',
-              label: 'Dropdown 下拉菜单'
-            }, {
-              value: 'steps',
-              label: 'Steps 步骤条'
-            }]
-          }, {
-            value: 'others',
-            label: 'Others',
-            children: [{
-              value: 'dialog',
-              label: 'Dialog 对话框'
-            }, {
-              value: 'tooltip',
-              label: 'Tooltip 文字提示'
-            }, {
-              value: 'popover',
-              label: 'Popover 弹出框'
-            }, {
-              value: 'card',
-              label: 'Card 卡片'
-            }, {
-              value: 'carousel',
-              label: 'Carousel 走马灯'
-            }, {
-              value: 'collapse',
-              label: 'Collapse 折叠面板'
-            }]
-          }]
-        }, {
-          value: 'ziyuan',
-          label: '资源',
-          children: [{
-            value: 'axure',
-            label: 'Axure Components'
-          }, {
-            value: 'sketch',
-            label: 'Sketch Templates'
-          }, {
-            value: 'jiaohu',
-            label: '组件交互文档'
-          }]
-        }]
+        //级联选择器
+        topNlist: [],
+        temp:{
+        }
     }
   },
-  created() {},
+  created() {
+    this.GetTopN()
+  },
   //  此时，页面上的元素，已经被渲染完毕了
   //   DOM元素初始化完毕后，执行mounted
   mounted() {
@@ -380,13 +260,7 @@ export default {
             labelLine: {
               show: true
             },
-            data: [
-              { value: 100, name: 'Tiktok' },
-              { value: 300, name: 'WeiXin' },
-              { value: 580, name: 'QQ' },
-              { value: 484, name: '王者荣耀' },
-              { value: 300, name: '绝地求生' }
-            ]
+            data: this.applicationList
           }
         ]
       };
@@ -395,6 +269,63 @@ export default {
   },
   methods: {
     queryTopN(){
+      this.temp["siteId"] = this.select_topN[0].slice(9)
+      this.temp["appDimension"] = this.select_topN[1]
+      this.temp["timeDimension"] = this.select_topN[2]
+      this.temp["top"] = this.select_topN[3]
+      this.tableData = []
+      if(this.temp["siteId"]!=null)
+        this.tableData.push(this.temp)
+      this.temp={}
+      console.log("this.tableData", this.tableData)
+
+      var formData = new FormData;
+      formData.append('siteId', this.select_topN[0].slice(9))
+      formData.append('appDimension', this.select_topN[1])
+      formData.append('timeDimension', this.select_topN[2])
+      formData.append('top', this.select_topN[3])
+
+      traffic_statistic(formData).then((res)=>{
+        console.log(res.data)
+        console.log("调用traffic_statistic成功")
+        this.applicationList = []
+        let tmp = {}
+        for(let i=0;i<res.data.length;i++){
+          tmp["value"] = res.data[i]["traffic"];
+          tmp["name"] = res.data[i]["name"];
+          this.applicationList.push(tmp);
+          tmp = {};
+
+        }
+        //再次实例化图表
+        let previewChart = echarts.init(document.getElementById('main'))
+        previewChart.setOption({
+             series: [{
+                data: this.applicationList
+             }]
+         })
+
+
+      })
+    },
+
+    GetTopN(){
+      getSiteData().then((res) => {
+        console.log(res.data)
+        for (var i= 0;i<res.data.length;i++){
+          this.siteDataList.push(res.data[i]["label"])
+        }
+      });
+      //构造级联选择器
+      for(var i =0;i<this.siteDataList.length;i++){
+        this.temp["value"] = this.siteDataList[i];
+        this.temp["label"] = this.siteDataList[i];
+        this.temp["children"] = this.topN_child;
+        this.topNlist.push(this.temp);
+        this.temp = {}
+      }
+
+      console.log("SiteDataList", this.siteDataList)
       console.log("here is query topN", this.select_topN)
     }
   },
