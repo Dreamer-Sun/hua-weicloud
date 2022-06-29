@@ -105,7 +105,7 @@ export const constantRoutes = [
         path: 'device_manage2',
         name: 'device_manage2',
         component: () => import('@/views/test/traffic_monitoring'),
-        meta: {title: '流量监控页面', icon: 'tree'}
+        meta: {title: '智能分析', icon: 'tree'}
       }
     ]
   },

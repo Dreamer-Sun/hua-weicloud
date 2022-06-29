@@ -33,7 +33,7 @@
 
 <script>
 import echarts from 'echarts'
-import geoJson from '../../template/world.json'
+import geoJson from '../../template/data.json'
 import {getList} from "@/api/table";
 import {getsitemap, getsitetypedata, queryresultbyquerysitesdata} from "@/api/getSiteData";
 import {mount} from "@vue/test-utils";
@@ -80,27 +80,28 @@ export default {
 
         // 地图上散点数据
         //那个站点的数据不是在地图上的经纬度
-        var points = this.resdata
+
+        // var points = this.resdata
         // console.log(points)
 
-        // var points = [
-        //   {value: [86.9023, 41.1482], itemStyle: {color: '#d26309'}},
-        //   {value: [87.8695, 31.6846], itemStyle: {color: '#d26309'}},
-        //   {value: [95.2402, 35.4199], itemStyle: {color: '#d26309'}},
-        //   {value: [101.0652, 24.680], itemStyle: {color: '#d26309'}},
-        //   {value: [102.7129, 38.166], itemStyle: {color: '#d26309'}},
-        //   {value: [108.7813, 23.6426], itemStyle: {color: '#d26309'}},
-        //   {value: [110.3467, 41.4899], itemStyle: {color: '#d26309'}},
-        //   {value: [111.5332, 27.3779], itemStyle: {color: '#d26309'}},
-        //   {value: [113.8668, 22.8076], itemStyle: {color: '#d26309'}},
-        //   {value: [115.4004, 38.1688], itemStyle: {color: '#d26309'}},
-        //   {value: [116.4551, 40.2539], itemStyle: {color: '#d26309'}},
-        //   {value: [118.8062, 31.9208], itemStyle: {color: '#d26309'}},
-        //   {value: [125.8154, 44.2584], itemStyle: {color: '#d26309'}},
-        //   {value: [126.1746, 43.5938], itemStyle: {color: '#d26309'}},
-        //   {value: [127.9688, 45.368], itemStyle: {color: '#d26309'}},
-        //   {value: [128.1445, 46.7156], itemStyle: {color: '#d26309'}},
-        // ]
+        var points = [
+          {value: [86.9023, 41.1482], itemStyle: {color: '#d26309'}},
+          {value: [87.8695, 31.6846], itemStyle: {color: '#d26309'}},
+          {value: [95.2402, 35.4199], itemStyle: {color: '#d26309'}},
+          {value: [101.0652, 24.680], itemStyle: {color: '#d26309'}},
+          {value: [102.7129, 38.166], itemStyle: {color: '#d26309'}},
+          {value: [108.7813, 23.6426], itemStyle: {color: '#d26309'}},
+          // {value: [110.3467, 41.4899], itemStyle: {color: '#d26309'}},
+          // {value: [111.5332, 27.3779], itemStyle: {color: '#d26309'}},
+          // {value: [113.8668, 22.8076], itemStyle: {color: '#d26309'}},
+          // {value: [115.4004, 38.1688], itemStyle: {color: '#d26309'}},
+          {value: [116.4551, 40.2539], itemStyle: {color: '#d26309'}},
+          {value: [118.8062, 31.9208], itemStyle: {color: '#d26309'}},
+          {value: [125.8154, 44.2584], itemStyle: {color: '#d26309'}},
+          {value: [126.1746, 43.5938], itemStyle: {color: '#d26309'}},
+          {value: [127.9688, 45.368], itemStyle: {color: '#d26309'}},
+          {value: [128.1445, 46.7156], itemStyle: {color: '#d26309'}},
+        ]
 
         // 地图上线图数据
         var linesdata = [
@@ -129,41 +130,53 @@ export default {
         //var planePath = 'arrow';
         var plane_path = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
         // var xaxisdata = ['亚洲', '欧洲', '北美洲', '南美洲', '非洲', '大洋洲']
-        var xaxisdata = ["河北省", "北京市", "天津市"]
+        var xaxisdata = ["北京市", "黑龙江", "吉林", "青海", "新疆", "西藏", "云南", "广西", "江苏", "甘肃"]
         // var xaxisdata = this.xaxisdata
         // var histogramsitenum = this.histogramsitenum
-        var histogramsitenum = [37, 51, 12]
+        var histogramsitenum = [50, 4, 1, 2, 4, 6, 8, 9, 1, 3]
 
-        var histogramsitetype = this.histogramsitetype
-
+        // var histogramsitetype = this.histogramsitetype
+        var histogramsitetype = [40, 3, 4, 5, 4, 8, 1, 2, 9, 1]
         var piedata = [{
-          value: 5,
-          name: '亚洲',
+          value: 50,
+          name: '北京市',
         },
           {
-            value: 2,
-            name: '欧洲'
+            value: 4,
+            name: '黑龙江'
           },
           {
-            value: 3,
-            name: '北美洲'
+            value: 1,
+            name: '吉林'
+          },
+          {
+            value: 2,
+            name: '青海'
           },
           {
             value: 4,
-            name: '南美洲'
-          },
-          {
-            value: 5,
-            name: '非洲'
+            name: '新疆'
           },
           {
             value: 6,
-            name: '大洋洲'
+            name: '西藏'
           },
           {
             value: 8,
-            name: '南极洲'
+            name: '云南'
           },
+          {
+            value: 9,
+            name: '广西',
+          },
+          {
+            value: 9,
+            name: '江苏',
+          },
+          {
+            value: 3,
+            name: '甘肃',
+          }
         ]
 
         var option = {
