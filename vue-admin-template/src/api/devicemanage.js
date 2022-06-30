@@ -44,3 +44,11 @@ export function changedevice(params) {
       },
   })
 }
+
+export function getnetworktraffic() {
+  // console.log("此处可以用showtoken")
+  return request({
+    url: '/api/getnetworktraffic',
+    method: 'GET',
+  })
+}

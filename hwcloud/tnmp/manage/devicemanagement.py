@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
 from tnmp.api.get_api import Get_Token
+from tnmp.manage.getFakeData import Getnetworktraffic
 
 tokenid = Get_Token()
 
@@ -160,6 +161,23 @@ def change_device(request):
     body_params = request.GET.get('data')
     response = {}
     tmp_data = ChangeDevice(device_id, body_params)
+    try:
+        response["data"] = tmp_data
+        response['code'] = 20000
+    except Exception as e:
+        response['msg'] = str(e)
+        response['error_num'] = 1
+    return JsonResponse(response)
+
+
+@require_http_methods(['GET'])
+def getnetworktraffic(request):
+    """
+    :param request: get请求
+    :return:
+    """
+    response = {}
+    tmp_data = Getnetworktraffic(10)
     try:
         response["data"] = tmp_data
         response['code'] = 20000

@@ -20,6 +20,7 @@ urlpatterns = [
     path('createdevice/', devicemanagement.createdevice),
     path('deletedevice/', devicemanagement.delete_device),
     path('changedevice/', devicemanagement.change_device),
+    path('getnetworktraffic/', devicemanagement.getnetworktraffic),
 
     path('getSiteData/', querysites.getSiteData),
 
