@@ -3,11 +3,11 @@
     <div id="main"></div>
     <div id="histogram"></div>
     <div id="piecharts"></div>
-    <el-button
-      type="primary"
-      style="margin-left: 20px"
-      @click="test"
-      >查看柱状图和饼图?</el-button>
+<!--    <el-button-->
+<!--      type="primary"-->
+<!--      style="margin-left: 20px"-->
+<!--      @click="test"-->
+<!--      >查看柱状图和饼图?</el-button>-->
 <!--    <el-button-->
 <!--    type="primary"-->
 <!--    @click="openFullScreen">-->
