@@ -19,6 +19,7 @@ deleteBody = {
 }
 
 def DeleteSite(siteList):
+    print("DeleteSite", siteList)
     deleteBody["ids"] = siteList
     req = requests.delete(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v3/sites',
                         headers=headers, json=deleteBody)
@@ -43,6 +44,7 @@ def deleteSite(request):
     sites = json.loads(a)
     print("type(sites)", type(sites))
     print(sites)
+    # 根据字符串返回数据判断
     success = DeleteSite(sites)
     # json_bytes = request.body
     print("-------")

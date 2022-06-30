@@ -298,7 +298,7 @@ export default {
       this.dialogVisible = true;
       let site = []
       for(let i = 0;i<this.value1.length;i++){
-          site.push(this.value1[i].substring(7,this.value1[i].length))
+          site.push(this.value1[i].substring(11,this.value1[i].length))
       }
       console.log("SelectSite", site)
       var formdata = new FormData();
@@ -317,7 +317,7 @@ export default {
     ChangeSite() {
       this.siteId = this.value5;
       this.dialogVisible2 = false;
-      let str = this.siteId.substring(7,this.siteId.length)
+      let str = this.siteId.substring(11,this.siteId.length)
       console.log("this.siteId", str)
       console.log("this.form", this.form)
       var formdata = new FormData();
