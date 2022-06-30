@@ -95,6 +95,9 @@ def Getnetworktraffic(num):
     data.append(tmp)
     return data
 
+def getFakeDeviceTags():
+    return 1
+
 if __name__ == '__main__':
     # data = CreateTopNdata(5)
     # print(data)

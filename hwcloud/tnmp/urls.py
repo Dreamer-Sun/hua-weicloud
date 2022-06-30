@@ -34,7 +34,9 @@ urlpatterns = [
     path('delete_site/', deleteSite.deleteSite),
     path('update_site/', update_site.updateSite),
 
-    path('traffic_statistic/', traffic_statistic.trafficStatistic)
+    path('traffic_statistic/', traffic_statistic.trafficStatistic),
+    path('queryTag/', traffic_statistic.queryTag)
+
     # path('user/getinfo', login.getinfo),
 
 ]
