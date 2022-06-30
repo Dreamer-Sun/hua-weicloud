@@ -23,6 +23,7 @@ export default {
   },
   created() {
     this.GetData();
+    this.interval = setInterval(this.reload, 10000);
   },
   mounted() {
     // this.GetData()
@@ -101,7 +102,6 @@ export default {
         // this.$set(this.links,(res.data[0]).linklist)
         // console.log(this.data1)
         // console.log(this.data2)
-        this.interval = setInterval(this.reload, 10000);
       })
     },
     Stopupdatedata() {
