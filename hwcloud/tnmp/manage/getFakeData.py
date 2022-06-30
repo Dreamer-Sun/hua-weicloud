@@ -53,6 +53,9 @@ def CreateTopNdata(num):
 
 
 
+def getFakeDeviceTags():
+    return 1
+
 if __name__ == '__main__':
     data = CreateTopNdata(5)
     print(data)

@@ -6,7 +6,7 @@ from tnmp.api.get_api import Get_Token
 from tnmp.manage.querysites import GetSiteId
 import requests
 from django.http import JsonResponse
-from tnmp.manage.getFakeData import CreateTopNdata
+from tnmp.manage.getFakeData import CreateTopNdata, getFakeDeviceTags
 
 tenantName = 'c4_usr_034'
 tenantPwd = '1qaz@WSX_034'
@@ -26,6 +26,11 @@ body = {
     "top": 1,
 }
 
+body2 = {
+    "siteId": '',
+    "pageSize": 20,
+    "pageIndex": 1
+}
 def TrafficStatistic(siteId, appDimension, timeDimension, top):
     body["siteId"] = siteId
     body["appDimension"] = appDimension
@@ -67,3 +72,33 @@ def trafficStatistic(request):
         response['error_num'] = 1
     return JsonResponse(response)
 
+
+def QueryTag(siteId, pageSize, pageIndex):
+    # req = requests.get(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v1/performanceservice/endpointbehavior/tags',headers=headers, data=body2)
+    data = getFakeDeviceTags()
+
+    return 1
+
+
+
+@require_http_methods(["POST"])
+def queryTag(request):
+    print("here is queryTag post", request)
+    response = {}
+    # 获取 json 类型数据:
+    siteId = request.POST.get("siteId", '1')
+    pageSize = request.POST.get("pageSize", 1)
+    pageIndex = request.POST.get("pageIndex", 2)
+    QueryTag(siteId, pageSize, pageIndex)
+    print(siteId, pageSize, pageIndex)
+    try:
+        response["data"] = "data"
+        response["success"] = "success"
+        response["fail"] = "fail"
+        response["errcode"] = "errcode"
+        response["errmsg"] = "errmsg"
+        response['code'] = 20000
+    except Exception as e:
+        response['msg'] = str(e)
+        response['error_num'] = 1
+    return JsonResponse(response)

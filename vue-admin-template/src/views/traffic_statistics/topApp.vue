@@ -280,7 +280,7 @@ export default {
       console.log("this.tableData", this.tableData)
 
       var formData = new FormData;
-      formData.append('siteId', this.select_topN[0].slice(9))
+      formData.append('siteId', this.select_topN[0].slice(10))
       formData.append('appDimension', this.select_topN[1])
       formData.append('timeDimension', this.select_topN[2])
       formData.append('top', this.select_topN[3])
@@ -292,7 +292,7 @@ export default {
         let tmp = {}
         for(let i=0;i<res.data.length;i++){
           tmp["value"] = res.data[i]["traffic"];
-          tmp["name"] = res.data[i]["name"];
+          tmp["name"] = res.data[i]["name"] + '/MB';
           this.applicationList.push(tmp);
           tmp = {};
 
