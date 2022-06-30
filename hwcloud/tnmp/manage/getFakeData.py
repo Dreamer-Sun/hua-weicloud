@@ -19,7 +19,7 @@ ApplicationPercent = [20.5, 18.56, 17.43, 16.36, 15.43, 14.89, 13.62, 14.58, 13.
 ApplicationTraffic = [602.2, 530.3, 450.5, 410.7, 370.4, 330.5, 299.6, 234.4, 200.8, 155.2, 131.5, 99.4, 65.9]
 
 
-# 获取设备id假数据
+# 获取设备tagId假数据
 fakeTags = {
 
     "errcode": "0.0",
@@ -28,14 +28,32 @@ fakeTags = {
     "pageSize": 0,
     "totalRecords": 0,
     "data": [
+    ]
+}
+
+fakeTagNameList = ["huawei", "sanxing", "oppo", "xiaomi", "meizu", "tianyu", "yijiaqi", "jingli", "zhongxing", "vivo", "hello", "admin", "world", "iphone", "hongda", "lenovo", "Blackberry "]
+
+
+
+# 获取查询历史接入客户流量假数据
+fakeHistoryFlow = {
+    "errcode": "0.0",
+    "errmsg": "",
+    "data": [
         {
-            # 8 + 1 + 4 + 4 + 4 + 12
-            "tagId": "31f35021-e656-472a-8937-9c6d6da76e6e",
-            "tagName": "test"
+            "targetName": "humanflow",
+            "counts": [
+                {
+                    "count": "123.0",
+                    "stamp": 0
+                }
+            ]
         }
     ]
-
 }
+
+
+
 def CreateTopNdata(num):
     topNdata["data"] = []
     arr = {}
@@ -141,11 +159,39 @@ def getRandomTagId():
 
 
 def getFakeDeviceTags():
-    for i in range(10):
-        tagId = getRandomTagId()
-        print(tagId)
+    num1 = []
+    num = random.randint(1, 10)
+    print(num)
+    tmp = {}
+    fakeTags["data"] = []
+    for i in range(num):
+        a = random.randint(0, len(fakeTagNameList)-1)
+        # 防止随机数相同
+        while True:
+            if a in num1:
+                a = random.randint(0, len(fakeTagNameList) - 1)
+            else:
+                num1.append(a)
+                break
+        tmp["tagId"] = getRandomTagId()
+        tmp["tagName"] = fakeTagNameList[a]
+        fakeTags["data"].append(tmp)
+        tmp = {}
+    # print(fakeTags)
+    return fakeTags
+
+
+
+def getFakeHistoryflow():
 
     return 1
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     # data = CreateTopNdata(5)

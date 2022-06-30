@@ -35,8 +35,8 @@ urlpatterns = [
     path('update_site/', update_site.updateSite),
 
     path('traffic_statistic/', traffic_statistic.trafficStatistic),
-    path('queryTag/', traffic_statistic.queryTag)
-
+    path('queryTag/', traffic_statistic.queryTag),
+    path('queryHistoryflow/', traffic_statistic.queryHistoryflow)
     # path('user/getinfo', login.getinfo),
 
 ]

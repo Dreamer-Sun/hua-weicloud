@@ -24,3 +24,16 @@ export function queryTag(params) {
       },
   })
 }
+
+
+export function queryHistoryflow(params) {
+  console.log("here is queryHistoryflow", params)
+  return request({
+    url: '/api/queryHistoryflow/',
+    method: 'post',
+    data: params,
+    headers: {
+        'Content-Type': 'application/json'
+      },
+  })
+}

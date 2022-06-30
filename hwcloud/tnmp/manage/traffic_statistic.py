@@ -6,7 +6,7 @@ from tnmp.api.get_api import Get_Token
 from tnmp.manage.querysites import GetSiteId
 import requests
 from django.http import JsonResponse
-from tnmp.manage.getFakeData import CreateTopNdata, getFakeDeviceTags
+from tnmp.manage.getFakeData import CreateTopNdata, getFakeDeviceTags, getFakeHistoryflow
 
 tenantName = 'c4_usr_034'
 tenantPwd = '1qaz@WSX_034'
@@ -31,6 +31,17 @@ body2 = {
     "pageSize": 20,
     "pageIndex": 1
 }
+
+body3 = {
+    "siteId": '',
+    "tagId": '',
+    "startTime": 1,
+    "endTime": 1
+}
+
+
+
+
 def TrafficStatistic(siteId, appDimension, timeDimension, top):
     body["siteId"] = siteId
     body["appDimension"] = appDimension
@@ -47,7 +58,7 @@ def TrafficStatistic(siteId, appDimension, timeDimension, top):
 
 
 
-
+# TopN应用流量
 @require_http_methods(["POST"])
 def trafficStatistic(request):
     print("here is trafficStatistic post", request)
@@ -74,10 +85,13 @@ def trafficStatistic(request):
 
 
 def QueryTag(siteId, pageSize, pageIndex):
-    # req = requests.get(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v1/performanceservice/endpointbehavior/tags',headers=headers, data=body2)
-    data = getFakeDeviceTags()
 
-    return 1
+    # req = requests.get(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v1/performanceservice/endpointbehavior/tags',headers=headers, data=body2)
+    Tags = getFakeDeviceTags()
+    print("QueryTag", Tags)
+    data = Tags.get("data", "")
+
+    return data
 
 
 
@@ -89,8 +103,52 @@ def queryTag(request):
     siteId = request.POST.get("siteId", '1')
     pageSize = request.POST.get("pageSize", 1)
     pageIndex = request.POST.get("pageIndex", 2)
-    QueryTag(siteId, pageSize, pageIndex)
+    data = QueryTag(siteId, pageSize, pageIndex)
     print(siteId, pageSize, pageIndex)
+    try:
+        response["data"] = data
+        response["success"] = "success"
+        response["fail"] = "fail"
+        response["errcode"] = "errcode"
+        response["errmsg"] = "errmsg"
+        response['code'] = 20000
+    except Exception as e:
+        response['msg'] = str(e)
+        response['error_num'] = 1
+    return JsonResponse(response)
+
+
+
+
+# 调用函数查询历史接入客户流量
+
+def QueryHistoryflow(siteId, tagId, selectTime):
+    Time = selectTime.split(',')
+    print("Time分割", Time)
+    startTime = int(Time[0])
+    endTime = int(Time[1])
+    print("Time分割", Time[0], type(startTime))
+    data = getFakeHistoryflow()
+    # req = requests.get(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v1/performanceservice/endpointbehavior/historyflow',headers=headers, data=body3)
+
+    return data
+
+
+
+
+
+
+@require_http_methods(["POST"])
+def queryHistoryflow(request):
+    print("here is queryHistoryflow post", request)
+    response = {}
+    # 获取 json 类型数据:
+    siteId = request.POST.get("siteId", '1')
+    tagId = request.POST.get("tagId", 1)
+    selectTime = request.POST.get("selectTime", 2)
+    data = QueryHistoryflow(siteId, tagId, selectTime)
+    print(siteId, tagId, selectTime)
+    print(type(selectTime))
     try:
         response["data"] = "data"
         response["success"] = "success"
