@@ -1,6 +1,10 @@
 # 终端应用流量信息查询假数据
 import random
 
+
+# topN应用流量假数据
+import string
+
 topNdata = {
     "errcode": "0",
     "errmsg": "",
@@ -15,8 +19,23 @@ ApplicationPercent = [20.5, 18.56, 17.43, 16.36, 15.43, 14.89, 13.62, 14.58, 13.
 ApplicationTraffic = [602.2, 530.3, 450.5, 410.7, 370.4, 330.5, 299.6, 234.4, 200.8, 155.2, 131.5, 99.4, 65.9]
 
 
-# 随机种子列表
+# 获取设备id假数据
+fakeTags = {
 
+    "errcode": "0.0",
+    "errmsg": "",
+    "pageIndex": 0,
+    "pageSize": 0,
+    "totalRecords": 0,
+    "data": [
+        {
+            # 8 + 1 + 4 + 4 + 4 + 12
+            "tagId": "31f35021-e656-472a-8937-9c6d6da76e6e",
+            "tagName": "test"
+        }
+    ]
+
+}
 def CreateTopNdata(num):
     topNdata["data"] = []
     arr = {}
@@ -95,10 +114,40 @@ def Getnetworktraffic(num):
     data.append(tmp)
     return data
 
+
+def getRandomTagId():
+    tagId = ''
+    sample = '0123456789abcdefghijklmnopqrstuvwxyz'
+    for i in range(8):
+        char = random.choice(sample)#从sample中选择一个字符
+        tagId = tagId + char
+    tagId = tagId + '-'
+    for i in range(4):
+        char = random.choice(sample)#从sample中选择一个字符
+        tagId = tagId + char
+    tagId = tagId + '-'
+    for i in range(4):
+        char = random.choice(sample)#从sample中选择一个字符
+        tagId = tagId + char
+    tagId = tagId + '-'
+    for i in range(4):
+        char = random.choice(sample)#从sample中选择一个字符
+        tagId = tagId + char
+    tagId = tagId + '-'
+    for i in range(12):
+        char = random.choice(sample)#从sample中选择一个字符
+        tagId = tagId + char
+    return tagId
+
+
 def getFakeDeviceTags():
+    for i in range(10):
+        tagId = getRandomTagId()
+        print(tagId)
+
     return 1
 
 if __name__ == '__main__':
     # data = CreateTopNdata(5)
     # print(data)
-    Getnetworktraffic(2)
+    getFakeDeviceTags()
