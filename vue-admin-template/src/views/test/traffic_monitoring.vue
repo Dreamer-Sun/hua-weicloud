@@ -2,7 +2,7 @@
   <div>
   <div style="width: 100%; height: 500px" ref="factor"></div>
   <div>
-      <el-button type="info" @click="Stopupdatedata">停止刷新</el-button>
+      <el-button type="info" @click="Stopupdatedata">点击刷新</el-button>
   </div>
   </div>
 </template>
@@ -23,7 +23,6 @@ export default {
   },
   created() {
     this.GetData();
-    this.interval = setInterval(this.reload, 10000);
   },
   mounted() {
     // this.GetData()
@@ -105,10 +104,10 @@ export default {
       })
     },
     Stopupdatedata() {
-      clearTimeout(this.interval);
+      this.interval = setTimeout(this.reload, 5000);
       this.$message ({
         type: 'success',
-        message: '停止'
+        message: '刷新'
       })
     }
   },
