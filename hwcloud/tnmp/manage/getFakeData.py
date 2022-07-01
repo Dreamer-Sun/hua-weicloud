@@ -1,5 +1,10 @@
 # 终端应用流量信息查询假数据
 import random
+import calendar
+import time
+
+# topN应用流量假数据
+import string
 
 topNdata = {
     "errcode": "0",
@@ -15,7 +20,45 @@ ApplicationPercent = [20.5, 18.56, 17.43, 16.36, 15.43, 14.89, 13.62, 14.58, 13.
 ApplicationTraffic = [602.2, 530.3, 450.5, 410.7, 370.4, 330.5, 299.6, 234.4, 200.8, 155.2, 131.5, 99.4, 65.9]
 
 
-# 随机种子列表
+# 获取设备tagId假数据
+fakeTags = {
+
+    "errcode": "0.0",
+    "errmsg": "",
+    "pageIndex": 0,
+    "pageSize": 0,
+    "totalRecords": 0,
+    "data": [
+    ]
+}
+
+fakeTagNameList = ["huawei", "sanxing", "oppo", "xiaomi", "meizu", "tianyu", "yijiaqi", "jingli", "zhongxing", "vivo", "hello", "admin", "world", "iphone", "hongda", "lenovo", "Blackberry "]
+
+
+
+# 获取查询历史接入客户流量假数据
+
+targetName = ["REALTIME_HOUR_FLOW", "REALTIME_DAY_FLOW", "capture_rate", "passersby", "visitors", "connected",
+              "within_one_hr", "one_hr_to_six_hrs", "more_than_six_hrs", "average_staytime", "first_time",
+              "occasionally", "regularly", "frequently", "repeat_rate", "humanflow"]
+
+fakeHistoryFlow = {
+    "errcode": "0.0",
+    "errmsg": "",
+    "data": [
+        {
+            "targetName": "humanflow",
+            "counts": [
+                {
+                    "count": "123.0",
+                    "stamp": 0
+                }
+            ]
+        }
+    ]
+}
+
+
 
 def CreateTopNdata(num):
     topNdata["data"] = []
@@ -95,10 +138,84 @@ def Getnetworktraffic(num):
     data.append(tmp)
     return data
 
+
+def getRandomTagId():
+    tagId = ''
+    sample = '0123456789abcdefghijklmnopqrstuvwxyz'
+    for i in range(8):
+        char = random.choice(sample)#从sample中选择一个字符
+        tagId = tagId + char
+    tagId = tagId + '-'
+    for i in range(4):
+        char = random.choice(sample)#从sample中选择一个字符
+        tagId = tagId + char
+    tagId = tagId + '-'
+    for i in range(4):
+        char = random.choice(sample)#从sample中选择一个字符
+        tagId = tagId + char
+    tagId = tagId + '-'
+    for i in range(4):
+        char = random.choice(sample)#从sample中选择一个字符
+        tagId = tagId + char
+    tagId = tagId + '-'
+    for i in range(12):
+        char = random.choice(sample)#从sample中选择一个字符
+        tagId = tagId + char
+    return tagId
+
+
 def getFakeDeviceTags():
-    return 1
+    num1 = []
+    num = random.randint(1, 10)
+    print(num)
+    tmp = {}
+    fakeTags["data"] = []
+    for i in range(num):
+        a = random.randint(0, len(fakeTagNameList)-1)
+        # 防止随机数相同
+        while True:
+            if a in num1:
+                a = random.randint(0, len(fakeTagNameList) - 1)
+            else:
+                num1.append(a)
+                break
+        tmp["tagId"] = getRandomTagId()
+        tmp["tagName"] = fakeTagNameList[a]
+        fakeTags["data"].append(tmp)
+        tmp = {}
+    # print(fakeTags)
+    return fakeTags
+
+
+
+def getFakeHistoryflow():
+    # 获取时间戳   *1000 代表毫秒为单位
+    ts = calendar.timegm(time.gmtime())
+    ts = ts * 1000
+    fakeHistoryFlow["data"] = []
+
+    # 构造data数据域
+    for i in range(len(targetName)):
+        tmp = {}
+        count = {}
+        tmp["targetName"] = targetName[i]
+        tmp["counts"] = []
+        count["count"] = random.randint(10, 500)
+        count["stamp"] = ts
+        tmp["counts"].append(count)
+        fakeHistoryFlow["data"].append(tmp)
+
+    return fakeHistoryFlow
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     # data = CreateTopNdata(5)
     # print(data)
-    Getnetworktraffic(2)
+    # getFakeDeviceTags()
+    getFakeHistoryflow()
