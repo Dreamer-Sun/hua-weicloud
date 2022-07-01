@@ -1,6 +1,7 @@
 # 终端应用流量信息查询假数据
 import random
-
+import calendar
+import time
 
 # topN应用流量假数据
 import string
@@ -36,6 +37,11 @@ fakeTagNameList = ["huawei", "sanxing", "oppo", "xiaomi", "meizu", "tianyu", "yi
 
 
 # 获取查询历史接入客户流量假数据
+
+targetName = ["REALTIME_HOUR_FLOW", "REALTIME_DAY_FLOW", "capture_rate", "passersby", "visitors", "connected",
+              "within_one_hr", "one_hr_to_six_hrs", "more_than_six_hrs", "average_staytime", "first_time",
+              "occasionally", "regularly", "frequently", "repeat_rate", "humanflow"]
+
 fakeHistoryFlow = {
     "errcode": "0.0",
     "errmsg": "",
@@ -183,8 +189,23 @@ def getFakeDeviceTags():
 
 
 def getFakeHistoryflow():
+    # 获取时间戳   *1000 代表毫秒为单位
+    ts = calendar.timegm(time.gmtime())
+    ts = ts * 1000
+    fakeHistoryFlow["data"] = []
 
-    return 1
+    # 构造data数据域
+    for i in range(len(targetName)):
+        tmp = {}
+        count = {}
+        tmp["targetName"] = targetName[i]
+        tmp["counts"] = []
+        count["count"] = random.randint(10, 500)
+        count["stamp"] = ts
+        tmp["counts"].append(count)
+        fakeHistoryFlow["data"].append(tmp)
+
+    return fakeHistoryFlow
 
 
 
@@ -196,4 +217,5 @@ def getFakeHistoryflow():
 if __name__ == '__main__':
     # data = CreateTopNdata(5)
     # print(data)
-    getFakeDeviceTags()
+    # getFakeDeviceTags()
+    getFakeHistoryflow()

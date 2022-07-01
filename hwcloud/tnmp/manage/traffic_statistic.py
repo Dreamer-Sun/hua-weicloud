@@ -128,10 +128,10 @@ def QueryHistoryflow(siteId, tagId, selectTime):
     startTime = int(Time[0])
     endTime = int(Time[1])
     print("Time分割", Time[0], type(startTime))
-    data = getFakeHistoryflow()
+    fakeHistoryFlowData = getFakeHistoryflow()["data"]
     # req = requests.get(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v1/performanceservice/endpointbehavior/historyflow',headers=headers, data=body3)
 
-    return data
+    return fakeHistoryFlowData
 
 
 
@@ -150,7 +150,7 @@ def queryHistoryflow(request):
     print(siteId, tagId, selectTime)
     print(type(selectTime))
     try:
-        response["data"] = "data"
+        response["data"] = data
         response["success"] = "success"
         response["fail"] = "fail"
         response["errcode"] = "errcode"
