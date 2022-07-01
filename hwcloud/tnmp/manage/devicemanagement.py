@@ -177,7 +177,7 @@ def getnetworktraffic(request):
     :return:
     """
     response = {}
-    tmp_data = Getnetworktraffic(10)
+    tmp_data = Getnetworktraffic(20)
     try:
         response["data"] = tmp_data
         response['code'] = 20000

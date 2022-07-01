@@ -1,34 +1,27 @@
 <template>
-  <div class="map-data">
-    <div id="main"></div>
-    <div id="histogram"></div>
-    <div id="piecharts"></div>
-<!--    <el-button-->
-<!--      type="primary"-->
-<!--      style="margin-left: 20px"-->
-<!--      @click="test"-->
-<!--      >查看柱状图和饼图?</el-button>-->
-<!--    <el-button-->
-<!--    type="primary"-->
-<!--    @click="openFullScreen">-->
-<!--    服务方式-->
-<!--  </el-button>-->
+  <div>
+    <div class="map-data">
+      <div id="piecharts"></div>
+      <div id="main"></div>
+      <div id="histogram"></div>
+      <div id="lineChartSeven">
+      </div>
+      <div id="div2"></div>
+      <div id="div3"></div>
+    </div>
   </div>
-
 </template>
 <el-dialog
   title="提示"
   :visible.sync="dialogVisible"
   width="30%"
   :before-close="handleClose">
-  <span>这是一段信息</span>
-  <span slot="footer" class="dialog-footer">
+<span>这是一段信息</span>
+<span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
   </span>
 </el-dialog>
-
-
 
 
 <script>
@@ -50,7 +43,25 @@ export default {
       interval: '',
       xaxisdata: [],
       histogramsitenum: [],
-      histogramsitetype: []
+      histogramsitetype: [],
+      tableData: [{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1517 弄'
+      }, {
+        date: '2016-05-01',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1519 弄'
+      }, {
+        date: '2016-05-03',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1516 弄'
+      }]
+
     }
   },
   created() {
@@ -58,13 +69,13 @@ export default {
     // setTimeout(function() {
     //   this.InitSiteData;
     // }, 500)
-    if(this.firstPlayFlag) {
+    if (this.firstPlayFlag) {
       console.log(this.firstPlayFlag)
       this.InitSiteData()
       this.firstPlayFlag = false
       console.log(this.firstPlayFlag)
     }
-    this.interval  =  setInterval(this.openFullScreen, 2000);
+    this.interval = setInterval(this.openFullScreen, 2000);
     // this.openFullScreen()
   },
   mounted() {
@@ -72,6 +83,7 @@ export default {
         var myChart = echarts.init(document.getElementById('main'))
         var histogram = echarts.init(document.getElementById('histogram'))
         var piecharts = echarts.init(document.getElementById('piecharts'))
+        var lineChartSeven = echarts.init(document.getElementById("lineChartSeven"))
         echarts.registerMap('china', geoJson)
 
         //设置背景图片
@@ -91,10 +103,6 @@ export default {
           {value: [101.0652, 24.680], itemStyle: {color: '#d26309'}},
           {value: [102.7129, 38.166], itemStyle: {color: '#d26309'}},
           {value: [108.7813, 23.6426], itemStyle: {color: '#d26309'}},
-          // {value: [110.3467, 41.4899], itemStyle: {color: '#d26309'}},
-          // {value: [111.5332, 27.3779], itemStyle: {color: '#d26309'}},
-          // {value: [113.8668, 22.8076], itemStyle: {color: '#d26309'}},
-          // {value: [115.4004, 38.1688], itemStyle: {color: '#d26309'}},
           {value: [116.4551, 40.2539], itemStyle: {color: '#d26309'}},
           {value: [118.8062, 31.9208], itemStyle: {color: '#d26309'}},
           {value: [125.8154, 44.2584], itemStyle: {color: '#d26309'}},
@@ -105,27 +113,32 @@ export default {
 
         // 地图上线图数据
         var linesdata = [
-          // {coords: [[118.8062, 31.9208], [119.4543, 25.9444]], lineStyle: {color: '#4ab2e5'}},
-          // {coords: [[127.9688, 45.3684], [119.4543, 25.9444]], lineStyle: {color: '#4fb6d2'}},
-          // {coords: [[110.3467, 41.4899], [119.4543, 25.9444]], lineStyle: {color: '#52b9c7'}},
-          // {coords: [[125.8154, 44.2584], [119.4543, 25.9444]], lineStyle: {color: '#5abead'}},
-          // {coords: [[116.4551, 40.2539], [119.4543, 25.9444]], lineStyle: {color: '#f34e2b'}},
-          {coords: [[86.9023, 41.1482], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[87.8695, 31.6846], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[95.2402, 35.4199], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[101.0652, 24.680], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[102.7129, 38.166], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[108.7813, 23.6426], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[110.3467, 41.4899], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[111.5332, 27.3779], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[113.8668, 22.8076], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[115.4004, 38.1688], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[116.4551, 40.2539], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[118.8062, 31.9208], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[125.8154, 44.2584], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[126.1746, 43.5938], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[127.9688, 45.368], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
-          {coords: [[128.1445, 46.7156], [119.4543, 25.9444]], lineStyle: {color: '#b2d22a'}},
+          {coords: [[86.9023, 41.1482], [116.4551, 40.2539]], lineStyle: {color: '#de6a18'}},
+          {coords: [[87.8695, 31.6846], [116.4551, 40.2539]], lineStyle: {color: '#de6a18'}},
+          {coords: [[95.2402, 35.4199], [116.4551, 40.2539]], lineStyle: {color: '#de6a18'}},
+          {coords: [[101.0652, 24.680], [116.4551, 40.2539]], lineStyle: {color: '#de6a18'}},
+          {coords: [[102.7129, 38.166], [116.4551, 40.2539]], lineStyle: {color: '#de6a18'}},
+          {coords: [[108.7813, 23.6426], [116.4551, 40.2539]], lineStyle: {color: '#de6a18'}},
+          {coords: [[116.4551, 40.2539], [116.4551, 40.2539]], lineStyle: {color: '#de6a18'}},
+          {coords: [[118.8062, 31.9208], [116.4551, 40.2539]], lineStyle: {color: '#de6a18'}},
+          {coords: [[125.8154, 44.2584], [116.4551, 40.2539]], lineStyle: {color: '#de6a18'}},
+          {coords: [[126.1746, 43.5938], [116.4551, 40.2539]], lineStyle: {color: '#de6a18'}},
+          {coords: [[127.9688, 45.368], [116.4551, 40.2539]], lineStyle: {color: '#de6a18'}},
+          {coords: [[128.1445, 46.7156], [116.4551, 40.2539]], lineStyle: {color: '#de6a18'}},
+        ]
+      var linesdata1 = [
+          {coords: [[116.4551, 40.2539], [86.9023, 41.1482]], lineStyle: {color: '#de6a18'}},
+          {coords: [[116.4551, 40.2539], [87.8695, 31.6846]], lineStyle: {color: '#de6a18'}},
+          {coords: [[116.4551, 40.2539], [95.2402, 35.4199]], lineStyle: {color: '#de6a18'}},
+          {coords: [[116.4551, 40.2539], [101.0652, 24.680]], lineStyle: {color: '#de6a18'}},
+          {coords: [[116.4551, 40.2539], [102.7129, 38.166]], lineStyle: {color: '#de6a18'}},
+          {coords: [[116.4551, 40.2539], [108.7813, 23.6426]], lineStyle: {color: '#de6a18'}},
+          {coords: [[116.4551, 40.2539], [116.4551, 40.2539]], lineStyle: {color: '#de6a18'}},
+          {coords: [[116.4551, 40.2539], [118.8062, 31.9208]], lineStyle: {color: '#de6a18'}},
+          {coords: [[116.4551, 40.2539], [125.8154, 44.2584]], lineStyle: {color: '#de6a18'}},
+          {coords: [[116.4551, 40.2539], [126.1746, 43.5938]], lineStyle: {color: '#de6a18'}},
+          {coords: [[116.4551, 40.2539], [127.9688, 45.368]], lineStyle: {color: '#de6a18'}},
+          {coords: [[116.4551, 40.2539], [128.1445, 46.7156]], lineStyle: {color: '#de6a18'}},
         ]
         //var planePath = 'arrow';
         var plane_path = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
@@ -133,20 +146,20 @@ export default {
         var xaxisdata = ["北京市", "黑龙江", "吉林", "青海", "新疆", "西藏", "云南", "广西", "江苏", "甘肃"]
         // var xaxisdata = this.xaxisdata
         // var histogramsitenum = this.histogramsitenum
-        var histogramsitenum = [50, 4, 1, 2, 4, 6, 8, 9, 1, 3]
+        var histogramsitenum = [45, 9, 10, 2, 1, 6, 8, 14, 1, 3]
 
         // var histogramsitetype = this.histogramsitetype
-        var histogramsitetype = [40, 3, 4, 5, 4, 8, 1, 2, 9, 1]
+        var histogramsitetype = [50, 9, 4, 1, 4, 12, 1, 3, 7, 1]
         var piedata = [{
-          value: 50,
+          value: 45,
           name: '北京市',
         },
           {
-            value: 4,
+            value: 9,
             name: '黑龙江'
           },
           {
-            value: 1,
+            value: 10,
             name: '吉林'
           },
           {
@@ -154,7 +167,7 @@ export default {
             name: '青海'
           },
           {
-            value: 4,
+            value: 1,
             name: '新疆'
           },
           {
@@ -166,11 +179,11 @@ export default {
             name: '云南'
           },
           {
-            value: 9,
+            value: 14,
             name: '广西',
           },
           {
-            value: 9,
+            value: 1,
             name: '江苏',
           },
           {
@@ -180,14 +193,21 @@ export default {
         ]
 
         var option = {
-          backgroundColor: '#1e90ff',
+          backgroundColor: '#030f28',
           geo: {
             map: 'china', //地图类型
             aspectScale: 0.75, //地图长宽比
             zoom: 1.1, //当前视角缩放比
             roam: true,
+            label: {
+              emphasis: {
+                show: false
+              }
+            },
             itemStyle: {
               normal: {
+                borderColor: 'rgba(147, 235, 248, 1)',
+                borderWidth: 1,
                 areaColor: {
                   type: 'radial', //径向渐变
                   x: 0.5,
@@ -195,16 +215,21 @@ export default {
                   r: 0.8,
                   colorStops: [{
                     offset: 0,
-                    color: 'rgb(255, 255, 255)' //0处的颜色
+                    color: 'rgb(147,235,248,0)' //0处的颜色
                   }, {
                     offset: 1,
-                    color: 'rgb(85,190,182)' //100%处的颜色
+                    color: 'rgb(147,235,248,.2)' //100%处的颜色
                   }],
                   toGlobalCoord: true
                 },
-                // shadowColor: 'rgb(58, 115, 192)',
-                // shadowOffsetX: 10,  //阴影
-                // shadowOffsetY: 11
+                shadowColor: 'rgb(128, 217, 248, 1)',
+                shadowOffsetX: -2,  //阴影
+                shadowOffsetY: 2,
+                shadowBlur: 10
+              },
+              emphasis: {
+                areaColor: '#389BB7',
+                borderWidth: 0
               }
             },
             regions: [{
@@ -290,10 +315,11 @@ export default {
                 trailLength: 0,
                 symbol: plane_path,
                 symbolSize: 15,
+
               },
               lineStyle: {
                 normal: {
-                  color: '#cb4e60',
+                  color: '#179f12',
                   width: 1,
                   curveness: 0.35,
                   opacity: 0.5,
@@ -301,31 +327,52 @@ export default {
 
                 }
               },
-              data: linesdata
+              data: linesdata1
             }
           ]
         }
         var option1 = {
           title: {
-            text: '站点分布情况'
+            text: '站点分布情况',
+            textStyle: {
+              color: '#ddd'
+            }
           },
           xAxis: {
             type: 'category',
             data: xaxisdata,
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#ddd'
+              }
+            }
             // data: ['亚洲', '欧洲', '北美洲', '南美洲', '非洲', '大洋洲', '南极洲']
           },
           yAxis: {
-            type: 'value'
+            type: 'value',
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#ddd'
+              }
+            }
           },
           legend: {
-            data: ['站点个数', '站点类型(种)']
+            data: ['站点个数', '站点类型(种)'],
+            textStyle: {
+              color: '#ddd'
+            }
           },
           series: [{
             name: '站点个数',
             data: histogramsitenum,
+            textStyle: {
+              color: '#ddd'
+            },
             itemStyle: {
               normal: {
-                color: '#4ad2ff'
+                color: 'rgba(47,173,255,0.51)'
               }
             },
             type: 'bar',
@@ -337,6 +384,9 @@ export default {
             {
               name: '站点类型(种)',
               data: histogramsitetype,
+              textStyle: {
+                color: '#ddd'
+              },
               type: 'bar',
               itemStyle: {
                 normal: {
@@ -351,7 +401,10 @@ export default {
         };
         var option2 = {
           title: {
-            text: '站点分布情况'
+            text: '站点分布情况',
+            textStyle: {
+              color: '#ddd'
+            }
           },
           legend: {
             orient: "vertical",
@@ -362,6 +415,9 @@ export default {
           series: [{
             type: 'pie',
             data: piedata,
+            textStyle: {
+              color: '#ddd'
+            },
             itemStyle: {
               normal: {
                 label: {
@@ -379,9 +435,196 @@ export default {
           cursor: "pointer",
           // showEmptyCircle: true //占位园
         }
+        var option3 = {
+          title: {
+            text: "",
+            left: "1%",
+          },
+          tooltip: {
+            trigger: "axis",
+            backgroundColor: "",
+            borderWidth: 0,
+            axisPointer: {
+              type: "line",
+              lineStyle: {
+                width: 2,
+                type: "solid",
+                color: "white",
+                shadowColor: "rgba(255, 255, 255, 0.8)",
+                shadowBlur: 20,
+                shadowOffsetX: -5,
+              },
+            },
+            textStyle: {align: "center"},
+          },
+          grid: {
+            left: "3%",
+            right: "4%",
+            bottom: "10%",
+            top: "18%",
+            containLabel: true,
+          },
+          legend: {
+            itemWidth: 10,
+            itemHeight: 10,
+            itemGap: 20,
+            top: "top",
+            right: "left",
+            icon: "roundRect",
+            textStyle: {
+              fontSize: 14,
+              fontWight: "bold",
+              fontFamily: "SourceHanSansCN-Regular",
+              color: "white",
+            },
+          },
+          xAxis: {
+            type: "category",
+            boundaryGap: false,
+            data: ["北京市", "黑龙江", "吉林", "青海", "新疆", "西藏", "云南", "广西", "江苏", "甘肃"],
+            axisLine: {
+              lineStyle: {
+                type: "solid",
+                color: "#00CCFF",
+                width: "2",
+                opacity: "0.4",
+              },
+            },
+            axisLabel: {
+              textStyle: {
+                color: "#319899",
+                fontSize: "14",
+              },
+            },
+            interval: 1,
+          },
+          yAxis: {
+            name: "个数",
+            type: "value",
+            splitNumber: 5,
+            splitLine: {
+              show: true,
+              lineStyle: {
+                type: "dashed",
+                width: "2",
+                color: "#00CCFF",
+                opacity: "0.2",
+              },
+            },
+            axisLine: {
+              lineStyle: {
+                type: "solid",
+                color: "#00CCFF",
+                width: "2",
+                opacity: "0.4",
+              },
+            },
+            axisLabel: {
+              textStyle: {
+                color: "#319899",
+                fontSize: "14",
+              },
+            },
+          },
+          dataZoom: [
+            {
+              show: true,
+              height: 10,
+              bottom: 0,
+              realtime: true,
+              start: 0,
+              end: 100,
+            },
+            {
+              type: "inside",
+              realtime: true,
+              start: 35,
+              end: 100,
+            },
+          ],
+          series: [
+            {
+              name: "站点个数",
+              type: "line",
+              showSymbol: false,
+              symbol: "circle",
+              symbolSize: 10,
+              smooth: true,
+              itemStyle: {
+                normal: {
+                  color: "#56F5D1",
+                  lineStyle: {
+                    width: 2,
+                  },
+                },
+              },
+              areaStyle: {
+                //折线图颜色半透明
+                color: {
+                  type: "linear",
+                  x: 0,
+                  y: 0,
+                  x2: 0,
+                  y2: 1,
+                  colorStops: [
+                    {
+                      offset: 0,
+                      color: "rgba(86,245,209, 0.5)", // 0% 处的颜色
+                    },
+                    {
+                      offset: 0.5,
+                      color: "rgba(86,245,209, 0.1)", // 100% 处的颜色
+                    },
+                  ],
+                  global: false, // 缺省为 false
+                },
+              },
+              data: [45, 9, 10, 2, 1, 6, 8, 14, 1, 3],
+            },
+            {
+              name: "站点类型(种)",
+              type: "line",
+              symbol: "circle",
+              showSymbol: false,
+              symbolSize: 10,
+              smooth: true,
+              itemStyle: {
+                normal: {
+                  color: "#FFC71E",
+                  lineStyle: {
+                    width: 2,
+                  },
+                },
+              },
+              areaStyle: {
+                //折线图颜色半透明
+                color: {
+                  type: "linear",
+                  x: 0,
+                  y: 0,
+                  x2: 0,
+                  y2: 1,
+                  colorStops: [
+                    {
+                      offset: 0,
+                      color: "rgba(255,199,30, 0.5)", // 0% 处的颜色
+                    },
+                    {
+                      offset: 0.5,
+                      color: "rgba(255,199,30, 0.1)", // 100% 处的颜色
+                    },
+                  ],
+                  global: false, // 缺省为 false
+                },
+              },
+              data: [50, 9, 4, 1, 4, 12, 1, 3, 7, 1],
+            },
+          ],
+        }
         myChart.setOption(option)
         histogram.setOption(option1)
         piecharts.setOption(option2)
+        lineChartSeven.setOption(option3)
       }, 1000
     )
     ;
@@ -423,15 +666,15 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       });
       queryresultbyquerysitesdata().then((res) => {
-          console.log(res)
-          if (res.flag === true){
-            clearTimeout(this.interval);
-            this.xaxisdata = JSON.stringify(res.data.xaxisdata);
-            this.histogramsitenum = JSON.stringify(res.data.sitenum);
-            this.histogramsitetype = JSON.stringify(res.data.sitetype);
-            loading.close();
-          }
-        })
+        console.log(res)
+        if (res.flag === true) {
+          clearTimeout(this.interval);
+          this.xaxisdata = JSON.stringify(res.data.xaxisdata);
+          this.histogramsitenum = JSON.stringify(res.data.sitenum);
+          this.histogramsitetype = JSON.stringify(res.data.sitetype);
+          loading.close();
+        }
+      })
     },
     test() {
       console.log("测试用函数")
@@ -445,22 +688,50 @@ export default {
 
 <style lang="scss">
 .map-data {
-  width: 800px;
+  width: 100%;
+  height: 100%;
+  background-color: #030f28;
 
   #main {
-    width: 100%;
+    width: 50%;
     height: 500px;
+    display: inline-block;
   }
 
   #histogram {
-    height: 300px;
-    width: 100%;
+    height: 350px;
+    width: 25%;
+    background-color: #030f28;
+    display: inline-block;
+    border: 1px solid #3585ef;
+    margin-bottom: 80px;
   }
 
   #piecharts {
-    height: 300px;
-    width: 100%;
+    height: 350px;
+    width: 25%;
+    background-color: #030f28;
+    display: inline-block;
+    border: 1px solid #3585ef;
+    margin-bottom: 80px;
   }
 }
 
+#lineChartSeven {
+  height: 400px;
+  width: 100%;
+  background-color: #030f28;
+}
+
+#div2 {
+  height: 100px;
+  width: 50%;
+  background-color: #030f28;
+}
+
+#div3 {
+  height: 100px;
+  width: 50%;
+  background-color: #030f28;
+}
 </style>

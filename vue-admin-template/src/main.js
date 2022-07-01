@@ -15,7 +15,8 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
-
+import VueParticles from 'vue-particles'
+Vue.use(VueParticles)
 
 
 /**

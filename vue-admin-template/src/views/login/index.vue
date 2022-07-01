@@ -1,4 +1,25 @@
 <template>
+<div>
+    <div class="app">
+      <vue-particles
+        color="#dedede"
+        :particleOpacity="0.7"
+        :particlesNumber="80"
+        shapeType="circle"
+        :particleSize="4"
+        linesColor="#dedede"
+        :linesWidth="1"
+        :lineLinked="true"
+        :lineOpacity="0.4"
+        :linesDistance="150"
+        :moveSpeed="3"
+        :hoverEffect="true"
+        hoverMode="grab"
+        :clickEffect="true"
+        clickMode="push"
+      >
+      </vue-particles>
+      </div>
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
@@ -49,6 +70,7 @@
       </div>
 
     </el-form>
+  </div>
   </div>
 </template>
 
@@ -135,6 +157,7 @@ $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
+
     color: $cursor;
   }
 }
@@ -195,7 +218,7 @@ $light_gray:#eee;
   .tips {
     font-size: 14px;
     color: #fff;
-    margin-bottom: 10px;
+    margin-bottom: 510px;
 
     span {
       &:first-of-type {
@@ -234,4 +257,8 @@ $light_gray:#eee;
     user-select: none;
   }
 }
+</style>
+
+<style>
+.app{position:absolute;color:#000;border:1px solid #000;width: 100%; height: 100%;}
 </style>

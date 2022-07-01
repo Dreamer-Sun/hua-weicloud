@@ -84,7 +84,7 @@ export const constantRoutes = [
         path: 'mapshow',
         name: 'mapshow',
         component: () => import('@/views/mapshow/index'),
-        meta: { title: '查看站点地图', icon: 'tree'}
+        meta: { title: '数据可视化', icon: 'tree'}
       }
     ]
   },
@@ -107,12 +107,12 @@ export const constantRoutes = [
         component: () => import('@/views/test/traffic_monitoring'),
         meta: {title: '设备网络速率', icon: 'tree'}
       },
-      {
-        path: 'device_manage3',
-        name: 'device_manage3',
-        component: () => import('@/views/test/traffic_monitoring'),
-        meta: {title: '智能分析', icon: 'tree'}
-      }
+      // {
+      //   path: 'device_manage3',
+      //   name: 'device_manage3',
+      //   component: () => import('@/views/test/traffic_monitoring'),
+      //   meta: {title: '智能分析', icon: 'tree'}
+      // }
     ]
   },
 

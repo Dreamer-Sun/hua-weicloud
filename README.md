@@ -10,6 +10,12 @@ npm install less@3.9.0 less-loader@4.1.0 --save-dev
 安装第三方库，geopy 根据经纬度获取位置信息
 conda install -c conda-forge geopy
 
+安装粒子特效
+npm install vue-particles --save-dev  
+
+
+
+
 #### 软件架构
 软件架构说明
 
