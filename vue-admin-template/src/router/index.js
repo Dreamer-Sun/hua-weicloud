@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import path from "path";
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -137,6 +138,7 @@ export const constantRoutes = [
       }
     ]
   },
+
 
 
 

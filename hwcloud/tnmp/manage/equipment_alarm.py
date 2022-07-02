@@ -8,6 +8,8 @@ import requests
 
 from django.http import JsonResponse
 
+from tnmp.manage.getFakeData import getFakePic_1_data, getFakePic_2_data, getFakePic_3_data, getFakePic_4_data
+
 tokenid = Get_Token()
 
 headers = {
@@ -19,19 +21,35 @@ body = {
     "deviceCategory": "ALL"
 }
 
-def getequipmentalarm(index):
-    SiteList = GetSiteId()
+def getequipmentalarm(siteId, deviceCategory):
     # print("equipment_site", SiteList[index])
-    body["siteId"] = SiteList[index]
+    body["siteId"] = siteId
+    body["deviceCategory"] = deviceCategory
     res = requests.post(url='https://cn2.naas.huaweicloud.com:18002/controller/campus/v1/oamservice/device/alarm', headers=headers, json=body)
     data = res.json()["data"]
+    print("body", body)
     print("equipment_data", data)
 
+    req_data = []
+    req_data.append(data["deviceTotalCount"])
+    req_data.append(data["normalDeviceCount"])
+    req_data.append(data["warningDeviceCount"])
+    req_data.append(data["faultyDeviceCount"])
+    req_data.append(data["offlineDeviceCount"])
+    req_data.append(data["unregistedDeviceCount"])
+    req_data.append(data["alarmCriticalCount"])
+    req_data.append(data["alarmMajorCount"])
+    req_data.append(data["alarmMinorCount"])
+    req_data.append(data["alarmWarningCount"])
+
+    for i in range(len(req_data)):
+        req_data[i] = req_data[i] + 1
+    print(req_data)
 
     # 设备告警信息  格式为站点id，站点所有设备
     #Alarm_message = []
     # temp tamp为中间变量
-    temp = {}
+
 
     # print("站点总数", len(SiteList))
     # for i in range(len(SiteList)):
@@ -50,7 +68,7 @@ def getequipmentalarm(index):
     # print("Alarm_message[40]", Alarm_message[40])
     # print(body)
     # print(res.json())
-    return data
+    return req_data
 
 
 
@@ -58,32 +76,31 @@ def getequipmentalarm(index):
 
 @require_http_methods(["POST"])
 def getEquipmentAlarm(request):
-    # 获取 json 类型数据:
-    # json_bytes = request.body
-    # print("json_bytes", type(json_bytes))
-    # print("json_bytes", json_bytes)
-    # # 将 bytes 类型转为 str
-    # json_str = json_bytes.decode()
-    # # python3.6 及以上版本中, json.loads() 方法可以接收 str 和 bytes 类型
-    # #但是 python3.5 以及以下版本中, json.loads() 方法只能接收 str,
-    # # 3.5 需要有上面的编码步骤.
-    # req_data = json.loads(json_str)
-    # id = req_data["id"]
-    # print(type(id))
-    id = request.GET.get('id', '1')
+
+
     # print(id)
     # print(int(id))
     response = {}
-    tmp_data = getequipmentalarm(int(id))
-    test1 = {'deviceTotalCount': 1, 'normalDeviceCount': 1, 'warningDeviceCount': 1, 'faultyDeviceCount': 0, 'offlineDeviceCount': 0, 'unregistedDeviceCount': 0, 'alarmCriticalCount': 0, 'alarmMajorCount': 0, 'alarmMinorCount': 0, 'alarmWarningCount': 0}
-    # test2 = {'deviceTotalCount': 2, 'normalDeviceCount': 2, 'warningDeviceCount': 2, 'faultyDeviceCount': 0, 'offlineDeviceCount': 0, 'unregistedDeviceCount': 0, 'alarmCriticalCount': 0, 'alarmMajorCount': 0, 'alarmMinorCount': 0, 'alarmWarningCount': 0}
-    # if int(id) == 2:
-    #     tmp_data = test1
-    # elif int(id) == 2:
-    #     tmp_data = test2
+    siteId = request.POST.get("siteId", '1')
+    deviceCategory = request.POST.get("deviceCategory", '1')
+    print("here getEquipmentAlarm", siteId, deviceCategory)
+    picture_1_data = getFakePic_1_data()
+    picture_2_data = getFakePic_2_data()
+    picture_3_date, picture_3_data = getFakePic_3_data()
+    picture_4_data_1, picture_4_data_2 = getFakePic_4_data()
+    # if(isUpdate == "true" ):
+    # now_device = getequipmentalarm(siteId, deviceCategory)
+
 
     try:
-        response["data"] = tmp_data
+        response["data"] = "tmp_data"
+        response["now_device"] = "now_device"
+        response["picture_1_data"] = picture_1_data
+        response["picture_2_data"] = picture_2_data
+        response["picture_3_date"] = picture_3_date
+        response["picture_3_data"] = picture_3_data
+        response["picture_4_data_1"] = picture_4_data_1
+        response["picture_4_data_2"] = picture_4_data_2
         response['code'] = 20000
     except Exception as e:
         response['msg'] = str(e)
@@ -91,6 +108,26 @@ def getEquipmentAlarm(request):
     return JsonResponse(response)
 
 
+
+
+@require_http_methods(["POST"])
+def getEquipmentAlarm2(request):
+
+
+    # print(id)
+    # print(int(id))
+    response = {}
+    siteId = request.POST.get("siteId", '1')
+    deviceCategory = request.POST.get("deviceCategory", '1')
+    now_device = getequipmentalarm(siteId, deviceCategory)
+    try:
+        response["data"] = "tmp_data"
+        response["now_device"] = now_device
+        response['code'] = 20000
+    except Exception as e:
+        response['msg'] = str(e)
+        response['error_num'] = 1
+    return JsonResponse(response)
 
 
 

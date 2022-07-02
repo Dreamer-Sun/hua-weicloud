@@ -29,6 +29,8 @@ urlpatterns = [
     path('queryresultbyquerysitesdata/', querysites.queryresultbyquerysitesdata),
 
     path('getEquipmentAlarm/', equipment_alarm.getEquipmentAlarm),
+    path('getEquipmentAlarm2/', equipment_alarm.getEquipmentAlarm2),
+
     path('getSiteId/', equipment_alarm.getSiteId),
     path('create_site/', create_site.createsite),
     path('delete_site/', deleteSite.deleteSite),

@@ -2,7 +2,7 @@
 import random
 import calendar
 import time
-
+import datetime
 # topN应用流量假数据
 import string
 
@@ -207,15 +207,49 @@ def getFakeHistoryflow():
 
     return fakeHistoryFlow
 
+# 设备告警假数据
+def getFakePic_1_data():
+    data = []
+    a = random.randint(100, 250)
+    data.append(a)
+    for i in range(8):
+        data.append(random.randint(0, 250))
+    return data
+
+def getFakePic_2_data():
+    data = []
+    for i in range(7):
+        data.append(random.randint(10, 350))
+    return data
+
+def getFakePic_3_data():
+    date = []
+    now = datetime.datetime.now()
+    yesterday = now - datetime.timedelta(days=2)
+    today = datetime.datetime.today()
+    for i in range(7):
+        day = now - datetime.timedelta(days=i)
+        date.append(str(day.month)+'-'+str(day.day))
+    # print(date)
+    data = []
+    for i in range(7):
+        data.append(random.randint(10, 180))
+    print(data)
+    return date, data
 
 
-
-
-
-
+def getFakePic_4_data():
+    Device = []
+    Alarm = []
+    for i in range(5):
+        Device.append(random.randint(100, 200))
+    for i in range(4):
+        Alarm.append(random.randint(100, 400))
+    return Device, Alarm
 
 if __name__ == '__main__':
     # data = CreateTopNdata(5)
     # print(data)
     # getFakeDeviceTags()
-    getFakeHistoryflow()
+    # getFakeHistoryflow()
+    getFakePic_3_data()
