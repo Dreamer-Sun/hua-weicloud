@@ -88,7 +88,7 @@ def CreateTopNdata(num):
         arr["unit"] = "MB"
         topNdata["data"].append(arr)
         arr = {}
-    # print(topNdata)
+    print(topNdata)
     # print('')
     return topNdata
 
@@ -252,4 +252,4 @@ if __name__ == '__main__':
     # print(data)
     # getFakeDeviceTags()
     # getFakeHistoryflow()
-    getFakePic_3_data()
+    CreateTopNdata(5)

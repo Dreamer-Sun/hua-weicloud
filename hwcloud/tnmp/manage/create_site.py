@@ -115,10 +115,11 @@ def CreateSite(req_data):
 # 获取创建成功站点数据格式化送入前端
 def treeList(data):
         arr = []
-        arr2 = {"label": "", "children": []}
+
         children = []
         children2 = {"label": ""}
         for i in range(len(data)):
+                arr2 = {"label": "", "children": []}
                 arr2["label"] = "SiteId:" + data[i]["id"]
                 children2["label"] = "name:" + data[i]["name"]
                 children.append(children2)
@@ -207,8 +208,8 @@ def createsite(request):
         data = {"sites": []}
         data["sites"] = After_fix
         success, fail, errcode, errmsg = CreateSite(data)
-        print(success)
         success = treeList(success)
+        print(success)
         try:
                 response["success"] = success
                 response["fail"] = fail
@@ -222,4 +223,5 @@ def createsite(request):
 
 
 
-
+if __name__ == '__main__':
+        print(tokenid)
